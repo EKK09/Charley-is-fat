@@ -3,15 +3,18 @@
     class="header text-white"
     :height-hint="40"
   >
-    <div class="fit row items-center no-wrap">
-      <q-toolbar-title class="q-gutter-xs">
+    <div class="row items-center no-wrap">
+      <q-toolbar-title class="row q-gutter-xs no-wrap">
         <ButtonBase icon="apps" />
         <ButtonBase icon="home" />
         <ButtonBase icon="leaderboard">
-          <div class="btn-lh q-ml-sm">
+          <div
+            class="btn-lh q-ml-sm fz-md"
+          >
             看板
           </div>
         </ButtonBase>
+        <SearchBar />
       </q-toolbar-title>
       <div
         id="logo"
@@ -35,10 +38,11 @@
 
 <script>
 import ButtonBase from 'src/components/button/ButtonBase.vue';
+import SearchBar from 'src/components/SearchBar.vue';
 
 export default {
   name: 'Header',
-  components: { ButtonBase },
+  components: { ButtonBase, SearchBar },
   data() {
     return {
     };
