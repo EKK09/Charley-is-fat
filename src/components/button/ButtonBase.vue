@@ -1,16 +1,18 @@
 <template>
   <q-btn
-    size="md"
+    size="16px"
     padding="6px"
     unelevated
     class="btn-bg"
   >
-    <q-icon
-      v-if="icon"
-      :name="icon"
-      size="20px"
-    />
-    <slot />
+    <div class="row no-wrap">
+      <q-icon
+        v-if="icon"
+        :name="icon"
+        size="20px"
+      />
+      <slot />
+    </div>
   </q-btn>
 </template>
 <script>
