@@ -5,7 +5,7 @@
   >
     <div class="row items-center no-wrap">
       <q-toolbar-title class="row q-gutter-xs no-wrap">
-        <ButtonBase icon="apps" />
+        <AppMenuButton />
         <ButtonBase icon="home" />
         <ButtonBase icon="leaderboard">
           <div
@@ -38,11 +38,12 @@
 
 <script>
 import ButtonBase from 'src/components/button/ButtonBase.vue';
+import AppMenuButton from 'src/components/button/AppMenuButton.vue';
 import SearchBar from 'src/components/SearchBar.vue';
 
 export default {
   name: 'Header',
-  components: { ButtonBase, SearchBar },
+  components: { ButtonBase, SearchBar, AppMenuButton },
   data() {
     return {
     };
