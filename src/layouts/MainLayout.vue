@@ -13,16 +13,17 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <Dashboard />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 import Header from 'src/components/Header.vue';
+import Dashboard from 'src/pages/Dashboard.vue';
 
 export default {
-  components: { Header },
+  components: { Header, Dashboard },
   data() {
     return {
       right: false,
