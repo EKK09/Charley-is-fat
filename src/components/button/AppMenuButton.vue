@@ -2,7 +2,7 @@
   <ButtonBase
     ref="button"
     icon="apps"
-    @click="handleClick"
+    @click.native="handleClick"
   >
     <q-menu
       ref="menu"
