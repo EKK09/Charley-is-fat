@@ -1,0 +1,6 @@
+.draggable {
+  position: fixed;
+  z-index: 10000;
+  transform: rotate(6deg);
+  cursor: grabbing;
+}

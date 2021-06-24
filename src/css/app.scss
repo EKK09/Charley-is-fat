@@ -1,4 +1,6 @@
 // app global css in SCSS form
+@import 'components/editable';
+@import 'components/drag';
 
 .btn-bg {
   background-color: rgba(255, 255, 255, 0.3);
