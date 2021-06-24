@@ -2,15 +2,13 @@
   <ButtonBase
     ref="button"
     icon="apps"
-    @click.native="handleClick"
   >
     <q-menu
       ref="menu"
-      v-model="isShowMenu"
+      :target="$refs.button"
       :offset="[6, 14]"
       transition-show="none"
       transition-hide="none"
-      no-focus
     >
       <q-card
         style="width: 304px"
@@ -26,7 +24,7 @@
               name="close"
               size="18px"
               class="absolute-right cursor-pointer"
-              @click="handleClick"
+              @click="hideMenu"
             />
           </div>
         </q-card-section>
@@ -182,8 +180,8 @@ export default {
     };
   },
   methods: {
-    handleClick() {
-      this.isShowMenu = !this.isShowMenu;
+    hideMenu() {
+      this.$refs.menu.hide();
     },
   },
 };
