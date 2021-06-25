@@ -36,6 +36,7 @@ export default {
 <style lang="scss" scoped>
 .dash-list-wraper {
   width: 272px;
+  min-width: 272px;
   margin: 0 4px;
   // white-space: nowrap;
 }

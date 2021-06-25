@@ -1,7 +1,9 @@
 <template>
   <q-page class="column">
     <DashboardHeader />
-    <DashBoardBody class="col" />
+    <div class="col relative-position">
+      <DashBoardBody />
+    </div>
   </q-page>
 </template>
 

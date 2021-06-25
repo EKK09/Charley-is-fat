@@ -1,5 +1,5 @@
 <template>
-  <div class="window-width row no-wrap wrapper">
+  <div class="absolute fit row no-wrap list-wrapper">
     <DashList
       v-for="(column, index) in columns"
       :key="index"
@@ -27,7 +27,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-div:first-child {
+.list-wrapper > div:first-child {
   margin-left: 8px;
 }
 </style>

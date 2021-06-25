@@ -16,6 +16,7 @@ export default {
 <style lang="scss" scoped>
 .dash-column {
   width: 272px;
+  min-width: 272px;
   margin: 0 4px;
   white-space: nowrap;
   background-color: hsla(0,0%,100%,.24);
