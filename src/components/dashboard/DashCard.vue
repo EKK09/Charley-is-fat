@@ -1,5 +1,9 @@
 <template>
-  <div class="card-wraper">
+  <div
+    ref="wrapper"
+    class="card-wraper"
+    @mouseover="handleMouseOver"
+  >
     <div
       ref="card"
       class="dash-card relative-position"
@@ -9,14 +13,14 @@
     >
       <div class="row ">
         <div
-          v-for="(tag, index) in tags"
+          v-for="(tag, index) in card.tags"
           :key="index"
           class="tag"
-          :class="`bg-${tag}`"
+          :class="`bg-${tags[index]}`"
         />
       </div>
       <div class="title">
-        打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球打球
+        {{ card.title }}
       </div>
       <div class="edit-btn absolute-top-right flex flex-center">
         <q-icon name="mode_edit_outline" />
@@ -32,6 +36,12 @@
 <script>
 export default {
   name: 'DashCard',
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       isDraggable: false,
@@ -53,9 +63,13 @@ export default {
       ],
     };
   },
+  computed: {
+    card() {
+      return this.$store.getters['dashboard/getCardById'](this.id);
+    },
+  },
   methods: {
     handleMouseDown(event) {
-      console.log('handleMouseDown');
       this.isMousePressing = true;
       this.originX = event.clientX;
       this.originY = event.clientY;
@@ -72,7 +86,6 @@ export default {
         window.addEventListener('mousemove', this.handleWindowMouseMove);
         window.addEventListener('mouseup', this.handleWindowMouseUp);
       }
-      // console.log(event);
     },
     handleWindowMouseUp() {
       this.cancelCardDragable();
@@ -90,21 +103,61 @@ export default {
       } = this.$refs.card.getBoundingClientRect();
       this.top = top;
       this.left = left;
+      this.$refs.wrapper.style.pointerEvents = 'none';
+      document.body.classList.add('grab');
       this.$refs.card.style.width = `${width}px`;
       this.$refs.card.classList.add('draggable');
       this.shadowHeight = height;
       this.isDraggable = true;
+      const nodeId = 'dragging-item';
+      this.$refs.wrapper.id = nodeId;
+      const dragItem = {
+        id: this.card.id,
+        node: nodeId,
+      };
+      this.$store.commit('dashboard/setDraggingItem', dragItem);
     },
     cancelCardDragable() {
       this.$refs.card.classList.remove('draggable');
+      document.body.classList.remove('grab');
+      this.$refs.wrapper.style.removeProperty('pointer-events');
+      this.$refs.card.style.removeProperty('width');
+      this.$refs.card.style.removeProperty('top');
+      this.$refs.card.style.removeProperty('left');
+      this.$refs.wrapper.removeAttribute('id');
       this.shadowHeight = 0;
       this.isDraggable = false;
       this.isMousePressing = false;
       this.top = 0;
       this.left = 0;
+      this.$store.commit('dashboard/setDraggingItem', null);
     },
     getMoveDistance(x, y) {
       return Math.sqrt((x - this.originX) ** 2 + (y - this.originY) ** 2);
+    },
+    handleMouseOver(event) {
+      if (this.$store.state.dashboard.draggingItem === null) {
+        return;
+      }
+      const { top, height } = this.$refs.wrapper.getBoundingClientRect();
+      const tagetCenterY = top + height / 2;
+
+      const displacementY = event.clientY - tagetCenterY;
+
+      const deltaY = Math.abs(displacementY);
+      if (deltaY < 15) {
+        return;
+      }
+      const ref = this.$refs.wrapper;
+      const refParent = ref.parentNode;
+      const target = document.getElementById(this.$store.state.dashboard.draggingItem.node);
+      const targetParent = target.parentNode;
+      targetParent.removeChild(target);
+      if (displacementY > 0) {
+        refParent.insertBefore(target, ref);
+      } else {
+        refParent.insertBefore(target, ref.nextSibling);
+      }
     },
   },
 };

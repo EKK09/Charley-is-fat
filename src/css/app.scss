@@ -35,3 +35,7 @@ input {
 .text-color-1 {
   color: #5E6C84;
 }
+
+.grab > *{
+  cursor: grabbing !important;
+}

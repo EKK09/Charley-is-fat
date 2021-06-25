@@ -1,7 +1,10 @@
 <template>
   <div class="window-width row no-wrap wrapper">
-    <DashList />
-    <DashList />
+    <DashList
+      v-for="(column, index) in columns"
+      :key="index"
+      :card-ids="column"
+    />
     <AddColumn />
   </div>
 </template>
@@ -15,6 +18,11 @@ export default {
   components: { AddColumn, DashList },
   data() {
     return {};
+  },
+  computed: {
+    columns() {
+      return this.$store.state.dashboard.columns;
+    },
   },
 };
 </script>

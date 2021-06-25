@@ -4,8 +4,9 @@
       <DashListHeader />
       <div class="dash-card-list-wrapper">
         <DashCard
-          v-for="n in 3"
-          :key="n"
+          v-for="(id, index) in cardIds"
+          :id="id"
+          :key="index"
         />
       </div>
       <DashListFooter />
@@ -21,6 +22,12 @@ import DashCard from 'src/components/dashboard/DashCard.vue';
 export default {
   name: 'DashList',
   components: { DashListHeader, DashListFooter, DashCard },
+  props: {
+    cardIds: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {};
   },
