@@ -36,7 +36,14 @@ export default {
       }, 0);
     },
     handleTextareaFocus() {
+      console.log('handleTextareaFocus');
       this.$refs.textarea.select();
+    },
+    focus() {
+      this.$refs.textarea.focus();
+    },
+    isFocus() {
+      return document.activeElement === this.$refs.textarea;
     },
   },
 };

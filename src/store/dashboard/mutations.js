@@ -5,6 +5,10 @@ export function setDraggingItem(state, item) {
   console.log({ item });
   state.draggingItem = item;
 }
+export function setDraggingList(state, list) {
+  console.log({ list });
+  state.draggingList = list;
+}
 export function modifyColumn(state) {
   console.log('modifyColumn');
   console.log(state.columns[1]);

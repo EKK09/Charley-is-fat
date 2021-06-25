@@ -16,15 +16,16 @@ const bazCard = {
 const qarCard = {
   id: '4',
   title: '看書',
-  tags: ['早上', '每天', '假日'],
+  tags: ['早上', '每天', '假日', '早上', '每天', '假日'],
 };
 
 const fooColumn = ['1', '2'];
-const barColumn = ['3', '4'];
+const barColumn = ['3', '4', '4', '4', '4', '4', '4', '4'];
 
 const state = () => ({
   cards: [fooCard, barCard, bazCard, qarCard],
-  columns: [fooColumn, barColumn],
+  columns: [fooColumn, barColumn, barColumn],
   draggingItem: null,
+  draggingList: null,
 });
 export default state;
