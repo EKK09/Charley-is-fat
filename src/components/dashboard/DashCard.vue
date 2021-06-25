@@ -10,6 +10,7 @@
       :style="`top: ${top}px; left: ${left}px`"
       @mousedown="handleMouseDown"
       @mousemove="handleMouseMove"
+      @mouseup="handleMouseUp"
     >
       <div class="row ">
         <div
@@ -69,6 +70,9 @@ export default {
     },
   },
   methods: {
+    handleMouseUp() {
+      this.isMousePressing = false;
+    },
     handleMouseDown(event) {
       this.isMousePressing = true;
       this.originX = event.clientX;
