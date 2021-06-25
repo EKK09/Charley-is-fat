@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-header row">
+  <div class="dashboard-header row wrap">
     <div class="left row q-gutter-xs">
       <DashboardHeaderButton>
         <div class="row items-center">
@@ -159,7 +159,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dashboard-header {
-  height: 52px;
+  min-height: 52px;
   padding: 8px 8px 4px 8px;
 }
 .left {
