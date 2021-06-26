@@ -1,5 +1,8 @@
 <template>
-  <div class="footer-wrapper">
+  <div
+    ref="footer"
+    class="footer-wrapper"
+  >
     <div
       v-if="!isShowInput"
       class="row"
@@ -65,6 +68,8 @@ export default {
       this.isShowInput = true;
       setTimeout(() => {
         this.$refs.textarea.focus();
+        const { parentNode } = this.$refs.footer;
+        parentNode.scrollTo(0, parentNode.scrollHeight);
       }, 20);
     },
     handleCancelClick() {
