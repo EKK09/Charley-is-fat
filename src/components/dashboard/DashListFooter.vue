@@ -40,12 +40,11 @@
           @click="handleCancelClick"
         />
         <q-space />
-        <div class="add-icon">
+        <div class="add-icon flex flex-center">
           <q-icon
             name="more_horiz"
             size="24px"
             style="color: #6b778c"
-            class="add-icon"
           />
         </div>
       </div>
