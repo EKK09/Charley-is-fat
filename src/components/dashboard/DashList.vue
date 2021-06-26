@@ -21,8 +21,8 @@
           :id="id"
           :key="index"
         />
+        <DashListFooter />
       </div>
-      <DashListFooter />
     </div>
     <div
       class="shadow"
@@ -186,6 +186,39 @@ export default {
 .dash-card-list-wrapper {
   padding: 0 4px;
   margin: 0 4px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background: rgba(9,30,66,.08);
+    &:vertical:start {
+      border-radius: 4px 4px 0 0;
+    }
+    &:vertical:end {
+      border-radius: 0 0 4px 4px;
+    }
+    &:horizontal:start {
+      border-radius: 4px 0 0 4px;
+    }
+    &:horizontal:end {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(9,30,66,0.13);
+    border-radius: 4px;
+    display: block;
+    height: 48px;
+  }
 }
 
 .shadow {

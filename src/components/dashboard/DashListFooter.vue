@@ -83,7 +83,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .footer-wrapper {
-  padding: 4px 8px 6px;
+  padding: 4px 0 6px;
 }
 .btn-wrapper {
   color: #5e6c84;
