@@ -1,7 +1,7 @@
 <template>
   <div class="fit q-pt-md">
     <div class="row">
-      <div class="column item col-6">
+      <div class="column item col-6  cursor-pointer">
         <div class="image photo" />
         <div class="text">
           照片
