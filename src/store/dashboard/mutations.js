@@ -31,3 +31,6 @@ export function hideDrawer(state) {
 export function setDrawerTab(state, tab) {
   state.drawerTab = tab;
 }
+export function setBgColor(state, code) {
+  state.bgColorCode = code;
+}

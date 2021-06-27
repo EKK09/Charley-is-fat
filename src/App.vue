@@ -1,18 +1,18 @@
 <template>
   <div
     id="q-app"
-    :class="`bg-${bgColor}`"
+    :style="`background-color: #${bgColorCode}`"
   >
     <router-view />
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'App',
-  data() {
-    return {
-      bgColor: 'secondary',
-    };
+  computed: {
+    ...mapState('dashboard', ['bgColorCode']),
   },
 };
 </script>

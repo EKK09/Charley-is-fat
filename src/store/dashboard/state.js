@@ -29,5 +29,6 @@ const state = () => ({
   draggingList: null,
   isShowDrawer: false,
   drawerTab: 'menu',
+  bgColorCode: '0279c0',
 });
 export default state;

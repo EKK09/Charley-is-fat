@@ -5,6 +5,7 @@
         v-for="(code, index) in colorCodes"
         :key="index"
         class="color-wrapper col-6 cursor-pointer"
+        @click="handleClick(code)"
       >
         <div
           class="color"
@@ -34,6 +35,12 @@ export default {
         '848d91',
       ],
     };
+  },
+  methods: {
+    ...mapMutations('dashboard', ['setBgColor']),
+    handleClick(code) {
+      this.setBgColor(code);
+    },
   },
 };
 </script>

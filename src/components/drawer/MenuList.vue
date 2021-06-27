@@ -24,8 +24,8 @@
       <MenuItem @click.native="showBgSetting">
         <template #header>
           <div
-            style="width: 20px; height: 20px"
-            class="bg-secondary square-border"
+            :style="`width: 20px; height: 20px;background-color:#${bgColorCode}`"
+            class="square-border"
           />
         </template>
         更換背景
@@ -240,13 +240,16 @@
 import MenuItem from 'src/components/drawer/MenuItem.vue';
 import Activity from 'src/components/drawer/Activity.vue';
 import { outlinedVerifiedUser } from '@quasar/extras/material-icons-outlined';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'MenuList',
   components: { MenuItem, Activity },
   data() {
     return { outlinedVerifiedUser };
+  },
+  computed: {
+    ...mapState('dashboard', ['bgColorCode']),
   },
   methods: {
     ...mapMutations('dashboard', ['setDrawerTab']),
