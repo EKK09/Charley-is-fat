@@ -28,5 +28,6 @@ const state = () => ({
   draggingItem: null,
   draggingList: null,
   isShowDrawer: false,
+  drawerTab: 'menu',
 });
 export default state;

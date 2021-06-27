@@ -28,3 +28,6 @@ export function showDrawer(state) {
 export function hideDrawer(state) {
   state.isShowDrawer = false;
 }
+export function setDrawerTab(state, tab) {
+  state.drawerTab = tab;
+}
