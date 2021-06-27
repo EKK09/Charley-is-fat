@@ -27,5 +27,6 @@ const state = () => ({
   columns: [fooColumn, barColumn, barColumn],
   draggingItem: null,
   draggingList: null,
+  isShowDrawer: false,
 });
 export default state;

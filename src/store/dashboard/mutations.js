@@ -22,3 +22,9 @@ export function modifyColumn(state) {
   // newcolumns.splice(1, 1, barColumn);
   state.columns = a;
 }
+export function showDrawer(state) {
+  state.isShowDrawer = true;
+}
+export function hideDrawer(state) {
+  state.isShowDrawer = false;
+}
