@@ -1,16 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <Header />
-    <q-drawer
-      v-model="right"
-      side="right"
-    >
-      <div
-        class="bg-red"
-      >
-        test
-      </div>
-    </q-drawer>
+    <Drawer />
 
     <q-page-container>
       <Dashboard />
@@ -20,14 +11,10 @@
 
 <script>
 import Header from 'src/components/Header.vue';
+import Drawer from 'src/components/drawer/Drawer.vue';
 import Dashboard from 'src/pages/Dashboard.vue';
 
 export default {
-  components: { Header, Dashboard },
-  data() {
-    return {
-      right: false,
-    };
-  },
+  components: { Header, Dashboard, Drawer },
 };
 </script>

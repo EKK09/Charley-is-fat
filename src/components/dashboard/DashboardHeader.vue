@@ -130,7 +130,9 @@
           </div>
         </div>
       </DashboardHeaderButton>
-      <DashboardHeaderButton>
+      <DashboardHeaderButton
+        @click.native="showDrawer"
+      >
         <div class="row items-center no-wrap">
           <q-icon
             name="more_horiz"
@@ -148,12 +150,13 @@
 
 <script>
 import DashboardHeaderButton from 'src/components/dashboard/DashboardHeaderButton.vue';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'DashboardHeader',
   components: { DashboardHeaderButton },
-  data() {
-    return {};
+  methods: {
+    ...mapMutations('dashboard', ['showDrawer']),
   },
 };
 </script>
