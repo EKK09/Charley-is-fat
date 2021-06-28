@@ -38,14 +38,20 @@ export default {
       },
     },
   },
+  mounted() {
+    this.resetInputheight();
+  },
   methods: {
     handleTextareaInput() {
       setTimeout(() => {
-        const { textarea } = this.$refs;
-        textarea.style.height = 'auto';
-        const textareaHeight = textarea.scrollHeight;
-        textarea.style.height = `${textareaHeight}px`;
+        this.resetInputheight();
       }, 0);
+    },
+    resetInputheight() {
+      const { textarea } = this.$refs;
+      textarea.style.height = 'auto';
+      const textareaHeight = textarea.scrollHeight;
+      textarea.style.height = `${textareaHeight}px`;
     },
     handleTextareaFocus() {
       console.log('handleTextareaFocus');
