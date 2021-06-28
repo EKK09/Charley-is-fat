@@ -3,7 +3,8 @@
     <DashList
       v-for="(column, index) in columns"
       :key="index"
-      :card-ids="column"
+      :column="column"
+      :index="index"
     />
     <AddColumn />
   </div>

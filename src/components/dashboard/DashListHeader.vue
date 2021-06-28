@@ -2,7 +2,7 @@
   <div class="dash-list-header relative-position">
     <textarea
       ref="textarea"
-      v-model="title"
+      v-model="editableTitle"
       rows="1"
       class="editable title-input cursor-pointer"
       @input="handleTextareaInput"
@@ -21,10 +21,22 @@
 <script>
 export default {
   name: 'DashListHeader',
-  data() {
-    return {
-      title: '完成事項',
-    };
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    editableTitle: {
+      get() {
+        return this.title;
+      },
+      set(val) {
+        // TODO: 設定標題
+        console.log(val);
+      },
+    },
   },
   methods: {
     handleTextareaInput() {

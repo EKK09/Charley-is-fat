@@ -11,13 +11,14 @@
     >
       <DashListHeader
         ref="header"
+        :title="column.title"
         @mousedown.native="handleMouseDown"
         @mousemove.native="handleMouseMove"
         @mouseup.native="handleMouseUp"
       />
       <div class="dash-card-list-wrapper">
         <DashCard
-          v-for="(id, index) in cardIds"
+          v-for="(id, index) in column.cards"
           :id="id"
           :key="index"
         />
@@ -40,8 +41,12 @@ export default {
   name: 'DashList',
   components: { DashListHeader, DashListFooter, DashCard },
   props: {
-    cardIds: {
-      type: Array,
+    column: {
+      type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
       required: true,
     },
   },

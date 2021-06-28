@@ -19,8 +19,14 @@ const qarCard = {
   tags: ['早上', '每天', '假日', '早上', '每天', '假日'],
 };
 
-const fooColumn = ['1', '2'];
-const barColumn = ['3', '4', '4', '4', '4', '4', '4', '4'];
+const fooColumn = {
+  title: '待辦事項',
+  cards: ['1', '2'],
+};
+const barColumn = {
+  title: '已完成',
+  cards: ['3', '4', '4', '4', '4', '4', '4', '4'],
+};
 
 const state = () => ({
   cards: [fooCard, barCard, bazCard, qarCard],
