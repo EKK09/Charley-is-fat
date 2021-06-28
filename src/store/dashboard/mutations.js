@@ -41,3 +41,12 @@ export function addColumn(state, title) {
   };
   state.columns.push(column);
 }
+export function setColumnTitle(state, { index, title }) {
+  state.columns[index].title = title;
+  // const oldColumn = state.columns[index];
+  // const column = {
+  //   ...oldColumn,
+  //   title,
+  // };
+  // state.columns.splice(index, 1, column);
+}

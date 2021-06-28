@@ -7,6 +7,7 @@
       class="editable title-input cursor-pointer"
       @input="handleTextareaInput"
       @focus="handleTextareaFocus"
+      @keydown.enter="handleEnter"
     />
     <div class="dash-list-header-icon flex flex-center cursor-pointer">
       <q-icon
@@ -19,11 +20,17 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'DashListHeader',
   props: {
     title: {
       type: String,
+      required: true,
+    },
+    columnIndex: {
+      type: Number,
       required: true,
     },
   },
@@ -33,8 +40,7 @@ export default {
         return this.title;
       },
       set(val) {
-        // TODO: 設定標題
-        console.log(val);
+        this.setTitle(val);
       },
     },
   },
@@ -42,6 +48,7 @@ export default {
     this.resetInputheight();
   },
   methods: {
+    ...mapMutations('dashboard', ['setColumnTitle']),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();
@@ -62,6 +69,16 @@ export default {
     },
     isFocus() {
       return document.activeElement === this.$refs.textarea;
+    },
+    handleEnter(event) {
+      if (event.isComposing) {
+        return;
+      }
+      event.preventDefault();
+      this.$refs.textarea.blur();
+    },
+    setTitle(title) {
+      this.setColumnTitle({ index: this.columnIndex, title });
     },
   },
 };

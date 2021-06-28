@@ -12,6 +12,7 @@
       <DashListHeader
         ref="header"
         :title="column.title"
+        :column-index="index"
         @mousedown.native="handleMouseDown"
         @mousemove.native="handleMouseMove"
         @mouseup.native="handleMouseUp"
