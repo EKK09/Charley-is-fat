@@ -37,6 +37,7 @@
 import DashListHeader from 'src/components/dashboard/DashListHeader.vue';
 import DashListFooter from 'src/components/dashboard/DashListFooter.vue';
 import DashCard from 'src/components/dashboard/DashCard.vue';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'DashList',
@@ -59,9 +60,18 @@ export default {
       hasMoved: false,
       top: 0,
       left: 0,
+      columnIndex: 0,
     };
   },
+  computed: {
+    ...mapState('dashboard', ['draggingList']),
+  },
+  created() {
+    this.columnIndex = this.index;
+  },
   methods: {
+    ...mapMutations('dashboard', ['switchDraggingColumn']),
+
     handleMouseUp(event) {
       console.log('handleMouseUp');
       // console.log(event);
@@ -126,6 +136,7 @@ export default {
       const dragList = {
         id: 'testId',
         node: nodeId,
+        index: this.columnIndex,
       };
       this.$store.commit('dashboard/setDraggingList', dragList);
     },
@@ -142,6 +153,7 @@ export default {
       this.isMousePressing = false;
       this.top = 0;
       this.left = 0;
+      this.columnIndex = this.draggingList.index;
       this.$store.commit('dashboard/setDraggingList', null);
     },
     getMoveDistance(x, y) {
@@ -151,7 +163,7 @@ export default {
       if (this.$store.state.dashboard.draggingList === null) {
         return;
       }
-      console.log('handleMouseEnter');
+      console.log(`handleMouseEnter index:${this.columnIndex}`);
       const { left, width } = this.$refs.wrapper.getBoundingClientRect();
       const displacementX = event.clientX - left;
       const deltaX = Math.abs(displacementX);
@@ -169,6 +181,9 @@ export default {
       } else {
         refParent.insertBefore(target, ref.nextSibling);
       }
+      const temp = this.columnIndex;
+      this.columnIndex = this.draggingList.index;
+      this.switchDraggingColumn(temp);
     },
   },
 };

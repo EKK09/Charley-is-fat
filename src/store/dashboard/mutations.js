@@ -50,3 +50,12 @@ export function setColumnTitle(state, { index, title }) {
   // };
   // state.columns.splice(index, 1, column);
 }
+
+export function switchDraggingColumn(state, index) {
+  const draggingListIndex = state.draggingList.index;
+  const tem = state.columns[draggingListIndex];
+  state.columns[draggingListIndex] = state.columns[index];
+  state.columns[index] = tem;
+  state.draggingList = { ...state.draggingList, index };
+  console.log(state.columns.map((c) => c.title));
+}
