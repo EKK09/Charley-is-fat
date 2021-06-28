@@ -19,11 +19,11 @@
       />
       <div class="dash-card-list-wrapper">
         <DashCard
-          v-for="(id, index) in column.cards"
+          v-for="(id, cardIndex) in column.cards"
           :id="id"
-          :key="index"
+          :key="cardIndex"
         />
-        <DashListFooter />
+        <DashListFooter :add-card="addCard" />
       </div>
     </div>
     <div
@@ -70,7 +70,7 @@ export default {
     this.columnIndex = this.index;
   },
   methods: {
-    ...mapMutations('dashboard', ['switchDraggingColumn']),
+    ...mapMutations('dashboard', ['switchDraggingColumn', 'addColumnCard']),
 
     handleMouseUp(event) {
       console.log('handleMouseUp');
@@ -184,6 +184,12 @@ export default {
       const temp = this.columnIndex;
       this.columnIndex = this.draggingList.index;
       this.switchDraggingColumn(temp);
+    },
+    addCard(title) {
+      this.addColumnCard({
+        index: this.columnIndex,
+        title,
+      });
     },
   },
 };

@@ -27,13 +27,18 @@
     <div v-else>
       <textarea
         ref="textarea"
+        v-model="cardTitle"
         class="editable title-input"
         placeholder="為這張卡片輸入標題..."
         rows="3"
         @input="handleTextareaInput"
+        @keydown.enter="handleEnter"
       />
       <div class="row items-center">
-        <div class="sure-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium">
+        <div
+          class="sure-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium"
+          @click="handleAddCard"
+        >
           新增卡片
         </div>
         <q-icon
@@ -58,19 +63,33 @@
 <script>
 export default {
   name: 'DashListFooter',
+  props: {
+    addCard: {
+      type: Function,
+      required: true,
+    },
+  },
   data() {
     return {
       isShowInput: false,
+      cardTitle: '',
     };
   },
   methods: {
     handleAddClick() {
       this.isShowInput = true;
+      this.scrollToBottom();
+    },
+    scrollToBottom() {
       setTimeout(() => {
         this.$refs.textarea.focus();
         const { parentNode } = this.$refs.footer;
-        parentNode.scrollTo(0, parentNode.scrollHeight);
-      }, 20);
+        parentNode.scrollTo({
+          top: parentNode.scrollHeight,
+          left: 0,
+          behavior: 'smooth',
+        });
+      }, 50);
     },
     handleCancelClick() {
       this.isShowInput = false;
@@ -82,6 +101,21 @@ export default {
         const textareaHeight = textarea.scrollHeight;
         textarea.style.height = `${textareaHeight}px`;
       }, 0);
+    },
+    handleAddCard() {
+      if (!this.cardTitle) {
+        return;
+      }
+      this.addCard(this.cardTitle);
+      this.cardTitle = '';
+      this.scrollToBottom();
+    },
+    handleEnter(event) {
+      if (event.isComposing) {
+        return;
+      }
+      event.preventDefault();
+      this.handleAddCard();
     },
   },
 };
@@ -117,6 +151,7 @@ export default {
   margin-bottom: 4px;
   padding: 6px 8px 6px;
   box-shadow: 0 1px 0 rgb(9 30 66 / 25%);
+  font-weight: 500;
 }
 .title-input::placeholder {
   color: #5e6c84;

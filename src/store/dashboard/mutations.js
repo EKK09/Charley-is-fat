@@ -1,3 +1,4 @@
+import { getId } from 'src/common/IdGenerator';
 // export function setDraggingId(state, id) {
 //   state.draggingId = id;
 // }
@@ -58,4 +59,15 @@ export function switchDraggingColumn(state, index) {
   state.columns[index] = tem;
   state.draggingList = { ...state.draggingList, index };
   console.log(state.columns.map((c) => c.title));
+}
+export function addColumnCard(state, { index, title }) {
+  const id = getId();
+  const newCard = {
+    id,
+    title,
+    tags: [],
+  };
+  state.cards.push(newCard);
+  const column = state.columns[index];
+  column.cards.push(id);
 }
