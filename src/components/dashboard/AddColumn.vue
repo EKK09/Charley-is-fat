@@ -1,5 +1,8 @@
 <template>
-  <div class="wrapper">
+  <div
+    ref="wrapper"
+    class="wrapper"
+  >
     <div
       v-if="!isShowInput"
       class="placeholder row items-center fz-md"
@@ -22,13 +25,19 @@
         placeholder="為列表輸入標題..."
         class="input"
         maxlength="512"
-        @blur="hideInput"
+        @blur="handleInputBlur"
+        @keydown.enter="handleSubmit"
       >
       <div
         ref="btnWrapper"
         class="row items-center btn-wrapper"
       >
-        <div class="sure-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium">
+        <div
+          class="sure-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium"
+          tabindex="2"
+          @click="handleSubmit"
+          @focus="handleFocus"
+        >
           新增列表
         </div>
         <q-icon
@@ -42,15 +51,19 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'AddColumn',
   data() {
     return {
       isShowInput: false,
       title: '',
+      timer: null,
     };
   },
   methods: {
+    ...mapMutations('dashboard', ['addColumn']),
     toggleInput() {
       if (this.isShowInput) {
         this.hideInput();
@@ -68,6 +81,37 @@ export default {
     hideInput() {
       this.$refs.btnWrapper.classList.remove('show');
       this.isShowInput = false;
+    },
+    handleInputBlur() {
+      this.timer = setTimeout(() => {
+        this.hideInput();
+      }, 50);
+    },
+    handleFocus() {
+      window.clearTimeout(this.timer);
+    },
+    handleSubmit(event) {
+      if (!this.title) {
+        this.$refs.input.focus();
+        return;
+      }
+      if (event.isComposing) {
+        return;
+      }
+      this.addColumn(this.title);
+      this.title = '';
+      this.$refs.input.focus();
+      this.scrollToEnd();
+    },
+    scrollToEnd() {
+      setTimeout(() => {
+        const { parentNode } = this.$refs.wrapper;
+        parentNode.scrollTo({
+          top: 0,
+          left: parentNode.scrollWidth,
+          behavior: 'smooth',
+        });
+      }, 50);
     },
   },
 };

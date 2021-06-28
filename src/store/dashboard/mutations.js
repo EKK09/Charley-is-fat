@@ -34,3 +34,10 @@ export function setDrawerTab(state, tab) {
 export function setBgColor(state, code) {
   state.bgColorCode = code;
 }
+export function addColumn(state, title) {
+  const column = {
+    title,
+    cards: [],
+  };
+  state.columns.push(column);
+}
