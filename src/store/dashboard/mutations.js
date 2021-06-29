@@ -78,3 +78,11 @@ export function setIsShowDialog(state, val) {
 export function setDialogCardId(state, id) {
   state.dialogCardId = id;
 }
+export function updateCard(state, card) {
+  for (let index = 0; index < state.cards.length; index += 1) {
+    if (card.id === state.cards[index].id) {
+      state.cards.splice(index, 1, card);
+      return;
+    }
+  }
+}
