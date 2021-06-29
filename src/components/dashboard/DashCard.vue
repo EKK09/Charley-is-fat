@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'DashCard',
   props: {
@@ -70,8 +72,12 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('dashboard', ['setIsShowDialog', 'setDialogCardId']),
+
     handleMouseUp() {
       this.isMousePressing = false;
+      this.setDialogCardId(this.id);
+      this.setIsShowDialog(true);
     },
     handleMouseDown(event) {
       this.isMousePressing = true;
