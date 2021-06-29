@@ -21,3 +21,15 @@ export function getCardsByIds(state) {
     return cards;
   };
 }
+export function dialogCard(state) {
+  if (!state.dialogCardId) {
+    return null;
+  }
+  for (let index = 0; index < state.cards.length; index += 1) {
+    const card = state.cards[index];
+    if (card.id === state.dialogCardId) {
+      return card;
+    }
+  }
+  return null;
+}

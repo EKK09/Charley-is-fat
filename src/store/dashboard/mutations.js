@@ -71,3 +71,10 @@ export function addColumnCard(state, { index, title }) {
   const column = state.columns[index];
   column.cards.push(id);
 }
+
+export function setIsShowDialog(state, val) {
+  state.isShowDialog = val;
+}
+export function setDialogCardId(state, id) {
+  state.dialogCardId = id;
+}

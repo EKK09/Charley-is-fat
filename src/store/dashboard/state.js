@@ -36,5 +36,9 @@ const state = () => ({
   isShowDrawer: false,
   drawerTab: 'menu',
   bgColorCode: '0279c0',
+
+  isShowDialog: false,
+  dialogCardId: '',
+
 });
 export default state;
