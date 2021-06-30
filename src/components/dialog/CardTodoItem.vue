@@ -18,6 +18,7 @@
       >
         <div
           class="todo-content col"
+          :class="todoItem.isFinish?'checked': ''"
           tabindex="1"
           @focus="showInput"
         >
@@ -251,6 +252,9 @@ export default {
 .todo-content{
   line-height: 20px;
   align-self: center;
+  &.checked {
+    text-decoration: line-through;
+  }
 }
 .option {
   visibility: hidden;
