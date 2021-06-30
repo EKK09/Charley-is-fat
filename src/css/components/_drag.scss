@@ -4,3 +4,9 @@
   transform: rotate(6deg);
   cursor: grabbing;
 }
+.draggableNr {
+  position: fixed;
+  z-index: 10000;
+  cursor: grabbing;
+}
+
