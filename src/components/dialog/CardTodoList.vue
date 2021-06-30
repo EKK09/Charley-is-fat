@@ -12,10 +12,12 @@
       </div>
       <q-space />
       <div
+        v-show="isShwoToggleFinishBtn"
         class="helper"
         style="margin-right: 8px"
+        @click="toggleFinishItem"
       >
-        隱藏已打勾的項目
+        {{ toggleFinishBtnText }}
       </div>
       <div class="helper">
         刪除
@@ -32,11 +34,12 @@
     </div>
     <div>
       <CardTodoItem
-        v-for="(item, index) in todo.items"
-        :key="index"
+        v-for="(item, iitemIdex) in todo.items"
+        :key="iitemIdex"
         :todo-item="item"
         :todo-index="todoIndex"
-        :item-index="index"
+        :item-index="iitemIdex"
+        :class="(item.isFinish && !isShwoFinishItem) ?'hide': ''"
       />
     </div>
     <div class="add-item-wrapper">
@@ -137,7 +140,20 @@ export default {
       isShowInput: false,
       inputHideTimer: null,
       index: 0,
+      isShwoFinishItem: true,
     };
+  },
+  computed: {
+    isShwoToggleFinishBtn() {
+      return this.todo.items.some((item) => item.isFinish);
+    },
+    toggleFinishBtnText() {
+      if (this.isShwoFinishItem) {
+        return '隱藏已打勾的項目';
+      }
+      const finishCount = this.todo.items.filter((item) => item.isFinish).length;
+      return `顯示已打勾的項目(${finishCount})`;
+    },
   },
   created() {
     this.index = this.todoIndex;
@@ -148,6 +164,9 @@ export default {
       setTimeout(() => {
         this.resetInputheight();
       }, 0);
+    },
+    toggleFinishItem() {
+      this.isShwoFinishItem = !this.isShwoFinishItem;
     },
     resetInputheight() {
       const { textarea } = this.$refs;
@@ -335,5 +354,8 @@ export default {
   min-height: 32px;
   margin: 4px 0 0;
   font-weight: 400;
+}
+.hide {
+  display: none;
 }
 </style>
