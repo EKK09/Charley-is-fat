@@ -69,13 +69,15 @@
         </div>
       </div>
     </div>
-    <CardTodoList
-      v-for="(todo, index) in dialogCard.todos"
-      :key="index"
-      :todo-index="index"
-      :todo="todo"
-      class="module"
-    />
+    <div>
+      <CardTodoList
+        v-for="(todo, index) in dialogCard.todos"
+        :key="index"
+        :todo-index="index"
+        :todo="todo"
+        class="module"
+      />
+    </div>
     <div class="module">
       <div class="header">
         <div class="header-icon flex flex-center">

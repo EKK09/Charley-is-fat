@@ -1,122 +1,140 @@
 <template>
-  <div>
-    <div class="header">
-      <div class="header-icon flex flex-center">
-        <q-icon
-          :name="outlinedCheckBox"
-          size="24px"
-        />
-      </div>
-      <div class="header-label">
-        {{ todo.title }}
-      </div>
-      <q-space />
-      <div
-        v-show="isShwoToggleFinishBtn"
-        class="helper"
-        style="margin-right: 8px"
-        @click="toggleFinishItem"
-      >
-        {{ toggleFinishBtnText }}
-      </div>
-      <div class="helper">
-        刪除
-      </div>
-    </div>
-    <div class="progress-bar-wrapper">
-      <span class="progress-value">{{ getFinishPercentage(todo) }}%</span>
-      <div class="progress-bar-track">
-        <div
-          class="progress-bar"
-          :style="`width: ${getFinishPercentage(todo)}%`"
-        />
-      </div>
-    </div>
-    <div>
-      <CardTodoItem
-        v-for="(item, iitemIdex) in todo.items"
-        :key="iitemIdex"
-        :todo-item="item"
-        :todo-index="todoIndex"
-        :item-index="iitemIdex"
-        :class="(item.isFinish && !isShwoFinishItem) ?'hide': ''"
-      />
-    </div>
-    <div class="add-item-wrapper">
-      <div
-        v-show="!isShowInput"
-        class="helper"
-        @click="showInput"
-      >
-        增加項目
-      </div>
-      <div v-show="isShowInput">
-        <textarea
-          ref="textarea"
-          v-model="label"
-          rows="2"
-          placeholder="增加項目"
-          class="editable label-input"
-          @blur="handleTextareaBlur"
-          @input="handleTextareaInput"
-        />
-        <div
-          class="row items-center"
-          style="margin-top: 8px"
-        >
-          <div
-            class="save-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium"
-          >
-            新增
-          </div>
+  <div
+    ref="wrapper"
+    @mouseenter="handleMouseEnter"
+  >
+    <div
+      ref="list"
+      class="relative-position todo-list"
+      :style="`top: ${top}px; left: ${left}px`"
+    >
+      <div class="header">
+        <div class="header-icon flex flex-center">
           <q-icon
-            tabindex="2"
+            :name="outlinedCheckBox"
             size="24px"
-            name="close"
-            style="color: #42526e; margin-left: 7px"
-            class="cursor-pointer"
-            @focus="handleCancelFocus"
-            @click="handleCancelClick"
           />
-          <q-space />
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="person_add_alt"
-            />
-            <div class="check-option-label">
-              指派
+        </div>
+        <div
+          class="header-label cursor-pointer"
+          @mousedown="handleMouseDown"
+          @mouseup="handleMouseUp"
+          @mousemove="handleMouseMove"
+        >
+          {{ todo.title }}
+        </div>
+        <q-space />
+        <div
+          v-show="isShwoToggleFinishBtn"
+          class="helper"
+          style="margin-right: 8px"
+          @click="toggleFinishItem"
+        >
+          {{ toggleFinishBtnText }}
+        </div>
+        <div class="helper">
+          刪除
+        </div>
+      </div>
+      <div class="progress-bar-wrapper">
+        <span class="progress-value">{{ getFinishPercentage(todo) }}%</span>
+        <div class="progress-bar-track">
+          <div
+            class="progress-bar"
+            :style="`width: ${getFinishPercentage(todo)}%`"
+          />
+        </div>
+      </div>
+      <div>
+        <CardTodoItem
+          v-for="(item, iitemIdex) in todo.items"
+          :key="iitemIdex"
+          :todo-item="item"
+          :todo-index="todoIndex"
+          :item-index="iitemIdex"
+          :class="(item.isFinish && !isShwoFinishItem) ?'hide': ''"
+        />
+      </div>
+      <div class="add-item-wrapper">
+        <div
+          v-show="!isShowInput"
+          class="helper"
+          @click="showInput"
+        >
+          增加項目
+        </div>
+        <div v-show="isShowInput">
+          <textarea
+            ref="textarea"
+            v-model="label"
+            rows="2"
+            placeholder="增加項目"
+            class="editable label-input"
+            @blur="handleTextareaBlur"
+            @input="handleTextareaInput"
+          />
+          <div
+            class="row items-center"
+            style="margin-top: 8px"
+          >
+            <div
+              class="save-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium"
+            >
+              新增
             </div>
-          </div>
-          <div class="row items-center check-option no-wrap">
             <q-icon
-              name="schedule"
+              tabindex="2"
+              size="24px"
+              name="close"
+              style="color: #42526e; margin-left: 7px"
+              class="cursor-pointer"
+              @focus="handleCancelFocus"
+              @click="handleCancelClick"
             />
-            <div class="check-option-label">
-              到期日
+            <q-space />
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="person_add_alt"
+              />
+              <div class="check-option-label">
+                指派
+              </div>
             </div>
-          </div>
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="sentiment_satisfied_alt"
-            />
-          </div>
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="alternate_email"
-            />
-          </div>
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="more_horiz"
-            />
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="schedule"
+              />
+              <div class="check-option-label">
+                到期日
+              </div>
+            </div>
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="sentiment_satisfied_alt"
+              />
+            </div>
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="alternate_email"
+              />
+            </div>
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="more_horiz"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div
+      class="shadow"
+      :style="`height: ${shadowHeight}px`"
+    />
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoItem from 'src/components/dialog/CardTodoItem.vue';
 
@@ -141,9 +159,17 @@ export default {
       inputHideTimer: null,
       index: 0,
       isShwoFinishItem: true,
+      shadowHeight: 0,
+      top: 0,
+      left: 0,
+      isMousePressing: false,
+      isDraggable: false,
+      originY: 0,
+      offsetY: 0,
     };
   },
   computed: {
+    ...mapState('dashboard', ['draggingList']),
     isShwoToggleFinishBtn() {
       return this.todo.items.some((item) => item.isFinish);
     },
@@ -159,7 +185,7 @@ export default {
     this.index = this.todoIndex;
   },
   methods: {
-    ...mapMutations('dashboard', ['addTodoItem']),
+    ...mapMutations('dashboard', ['addTodoItem', 'switchDraggingTodo']),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();
@@ -211,6 +237,118 @@ export default {
       });
 
       return Math.ceil((finishCount * 100) / todo.items.length);
+    },
+
+    handleMouseUp() {
+      console.log('handleMouseUp');
+      // const hasClickTextarea = event.path.includes(this.$refs.header.$refs.textarea);
+      this.isMousePressing = false;
+      // if (this.$refs.header.isFocus() === false && hasClickTextarea) {
+      //   this.$refs.header.focus();
+      // }
+    },
+    handleMouseDown(event) {
+      console.log('handleMouseDown');
+
+      // if (this.$refs.header.isFocus()) {
+      //   console.log('打字中');
+      //   return;
+      // }
+      event.stopPropagation();
+      event.preventDefault();
+      this.isMousePressing = true;
+      this.originY = event.clientY;
+      this.offsetY = event.clientY - this.$refs.wrapper.getBoundingClientRect().top;
+    },
+    handleMouseMove(event) {
+      if (!this.isMousePressing || this.isDraggable) {
+        return;
+      }
+      console.log('handleMouseMove');
+      const distance = this.getMoveDistanceY(event.y);
+      if (distance > 5) {
+        this.setCardDragable();
+        window.addEventListener('mousemove', this.handleWindowMouseMove);
+        window.addEventListener('mouseup', this.handleWindowMouseUp);
+      }
+    },
+    handleWindowMouseUp() {
+      console.log('handleWindowMouseUp');
+      this.cancelCardDragable();
+      window.removeEventListener('mousemove', this.handleWindowMouseMove);
+      window.removeEventListener('mouseup', this.handleWindowMouseUp);
+    },
+    handleWindowMouseMove(event) {
+      this.top = event.clientY - this.offsetY;
+      this.left = event.clientX - this.offsetX;
+    },
+    setCardDragable() {
+      const {
+        height, width, top, left,
+      } = this.$refs.list.getBoundingClientRect();
+      this.top = top;
+      this.left = left;
+      this.$refs.wrapper.style.pointerEvents = 'none';
+      document.body.classList.add('grab');
+      this.$refs.list.style.width = `${width}px`;
+      this.$refs.list.classList.add('draggableNr');
+      this.$refs.list.classList.add('dragging');
+      this.shadowHeight = height;
+      this.isDraggable = true;
+      const nodeId = 'dragging-list';
+      this.$refs.wrapper.id = nodeId;
+      const dragList = {
+        id: 'testId',
+        node: nodeId,
+        index: this.index,
+      };
+      this.$store.commit('dashboard/setDraggingList', dragList);
+    },
+    cancelCardDragable() {
+      this.$refs.list.classList.remove('draggableNr');
+      this.$refs.list.classList.remove('dragging');
+      document.body.classList.remove('grab');
+      this.$refs.wrapper.style.removeProperty('pointer-events');
+      this.$refs.list.style.removeProperty('width');
+      this.$refs.list.style.removeProperty('top');
+      this.$refs.list.style.removeProperty('left');
+      this.$refs.wrapper.removeAttribute('id');
+      this.shadowHeight = 0;
+      this.isDraggable = false;
+      this.isMousePressing = false;
+      this.top = 0;
+      this.left = 0;
+      this.index = this.draggingList.index;
+      this.$store.commit('dashboard/setDraggingList', null);
+    },
+    getMoveDistanceY(y) {
+      return Math.abs(y - this.originY);
+    },
+    handleMouseEnter(event) {
+      if (this.$store.state.dashboard.draggingList === null) {
+        return;
+      }
+      console.log(`handleMouseEnter index:${this.index}`);
+      const { top, height } = this.$refs.wrapper.getBoundingClientRect();
+      const displacementY = event.clientY - top;
+      const deltaY = Math.abs(displacementY);
+      const isInsertBefore = deltaY > height / 2;
+      console.log({ deltaY });
+
+      const ref = this.$refs.wrapper;
+      const refParent = ref.parentNode;
+      const target = refParent.querySelector(`#${this.$store.state.dashboard.draggingList.node}`);
+      const targetParent = target.parentNode;
+      targetParent.removeChild(target);
+
+      if (isInsertBefore) {
+        refParent.insertBefore(target, ref);
+      } else {
+        refParent.insertBefore(target, ref.nextSibling);
+      }
+      const temp = this.index;
+      this.index = this.draggingList.index;
+      this.switchDraggingTodo(temp);
     },
   },
 };
@@ -357,5 +495,17 @@ export default {
 }
 .hide {
   display: none;
+}
+
+.todo-list {
+  background-color: #f4f5f7;
+
+  &.dragging {
+    opacity: 0.85;
+  }
+}
+.shadow {
+  border-radius: 3px;
+  background-color: rgba(9,30,66,.04);
 }
 </style>
