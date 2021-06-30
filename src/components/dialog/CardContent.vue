@@ -69,22 +69,13 @@
         </div>
       </div>
     </div>
-    <div class="module">
-      <div class="header">
-        <div class="header-icon flex flex-center">
-          <q-icon
-            :name="outlinedCheckBox"
-            size="24px"
-          />
-        </div>
-        <div class="header-label">
-          描述
-        </div>
-      </div>
-      <div class="content-wrapper">
-        test
-      </div>
-    </div>
+    <CardTodoList
+      v-for="(todo, index) in dialogCard.todos"
+      :key="index"
+      :todo-index="index"
+      :todo="todo"
+      class="module"
+    />
     <div class="module">
       <div class="header">
         <div class="header-icon flex flex-center">
@@ -106,9 +97,11 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
+import CardTodoList from 'src/components/dialog/CardTodoList.vue';
 
 export default {
   name: 'CardContent',
+  components: { CardTodoList },
   data() {
     return {
       outlinedCheckBox,
