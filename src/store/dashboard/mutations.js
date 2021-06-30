@@ -97,3 +97,14 @@ export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
     }
   }
 }
+export function addTodoItem(state, { item, todoIndex }) {
+  if (!state.dialogCardId) {
+    return;
+  }
+  for (let index = 0; index < state.cards.length; index += 1) {
+    const card = state.cards[index];
+    if (card.id === state.dialogCardId) {
+      card.todos[todoIndex].items.push(item);
+    }
+  }
+}

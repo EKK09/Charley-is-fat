@@ -113,7 +113,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoItem from 'src/components/dialog/CardTodoItem.vue';
 
@@ -136,14 +136,14 @@ export default {
       label: '',
       isShowInput: false,
       inputHideTimer: null,
+      index: 0,
     };
   },
-  computed: {
-    ...mapGetters('dashboard', ['dialogCard']),
-
+  created() {
+    this.index = this.todoIndex;
   },
   methods: {
-    ...mapMutations('dashboard', ['setIsShowDialog', 'updateCard']),
+    ...mapMutations('dashboard', ['addTodoItem']),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();
@@ -163,7 +163,12 @@ export default {
     },
 
     addItem() {
-
+      const item = {
+        isFinish: false,
+        label: this.label,
+      };
+      this.addTodoItem({ item, todoIndex: this.index });
+      this.label = '';
     },
     handleTextareaBlur() {
       this.inputHideTimer = setTimeout(() => {
@@ -329,5 +334,6 @@ export default {
   z-index: 50;
   min-height: 32px;
   margin: 4px 0 0;
+  font-weight: 400;
 }
 </style>
