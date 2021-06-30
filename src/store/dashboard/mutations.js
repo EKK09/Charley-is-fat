@@ -86,3 +86,14 @@ export function updateCard(state, card) {
     }
   }
 }
+export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
+  if (!state.dialogCardId) {
+    return;
+  }
+  for (let index = 0; index < state.cards.length; index += 1) {
+    const card = state.cards[index];
+    if (card.id === state.dialogCardId) {
+      card.todos[todoIndex].items.splice(itemIndex, 1, item);
+    }
+  }
+}
