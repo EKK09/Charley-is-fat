@@ -108,3 +108,19 @@ export function addTodoItem(state, { item, todoIndex }) {
     }
   }
 }
+export function switchDraggingTodo(state, index) {
+  if (!state.dialogCardId) {
+    return;
+  }
+  const draggingTodoIndex = state.draggingList.index;
+  for (let i = 0; i < state.cards.length; i += 1) {
+    const card = state.cards[i];
+    if (card.id === state.dialogCardId) {
+      const tem = card.todos[draggingTodoIndex];
+      card.todos[draggingTodoIndex] = card.todos[index];
+      card.todos[index] = tem;
+      state.draggingList = { ...state.draggingList, index };
+      console.log(card.todos.map((c) => c.title));
+    }
+  }
+}
