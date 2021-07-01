@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'DashCard',
   props: {
-    id: {
-      type: String,
+    card: {
+      type: Object,
       required: true,
     },
   },
@@ -67,12 +67,15 @@ export default {
     };
   },
   computed: {
-    card() {
-      return this.$store.getters['dashboard/getCardById'](this.id);
-    },
+    ...mapState('dashboard', ['draggingItem']),
   },
   methods: {
-    ...mapMutations('dashboard', ['setIsShowDialog', 'setDialogCardId']),
+    ...mapMutations('dashboard', [
+      'setIsShowDialog',
+      'setDialogCardId',
+      'switchDraggingCardItem',
+      'removeEmptyCard',
+    ]),
 
     handleMouseUp() {
       this.isMousePressing = false;
@@ -80,6 +83,7 @@ export default {
       this.setIsShowDialog(true);
     },
     handleMouseDown(event) {
+      console.log({ column: this.card.columnIndex, index: this.card.itemIndex });
       this.isMousePressing = true;
       this.originX = event.clientX;
       this.originY = event.clientY;
@@ -124,6 +128,7 @@ export default {
       const dragItem = {
         id: this.card.id,
         node: nodeId,
+        item: this.card,
       };
       this.$store.commit('dashboard/setDraggingItem', dragItem);
     },
@@ -141,6 +146,7 @@ export default {
       this.top = 0;
       this.left = 0;
       this.$store.commit('dashboard/setDraggingItem', null);
+      this.removeEmptyCard();
     },
     getMoveDistance(x, y) {
       return Math.sqrt((x - this.originX) ** 2 + (y - this.originY) ** 2);
@@ -168,6 +174,7 @@ export default {
       } else {
         refParent.insertBefore(target, ref.nextSibling);
       }
+      this.switchDraggingCardItem(this.card);
     },
   },
 };

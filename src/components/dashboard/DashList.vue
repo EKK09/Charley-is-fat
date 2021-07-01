@@ -12,19 +12,22 @@
       <DashListHeader
         ref="header"
         :title="column.title"
-        :column-index="index"
+        :column-index="column.columnIndex"
         @mousedown.native="handleMouseDown"
         @mousemove.native="handleMouseMove"
         @mouseup.native="handleMouseUp"
       />
-      <div class="dash-card-list-wrapper">
+      <div
+        ref="cardList"
+        class="dash-card-list-wrapper"
+      >
         <DashCard
-          v-for="(id, cardIndex) in column.cards"
-          :id="id"
-          :key="cardIndex"
+          v-for="card in column.cards"
+          :key="card.id"
+          :card="card"
         />
-        <DashListFooter :add-card="addCard" />
       </div>
+      <DashListFooter :add-card="addCard" />
     </div>
     <div
       class="shadow"
@@ -47,10 +50,6 @@ export default {
       type: Object,
       required: true,
     },
-    index: {
-      type: Number,
-      required: true,
-    },
   },
   data() {
     return {
@@ -60,17 +59,13 @@ export default {
       hasMoved: false,
       top: 0,
       left: 0,
-      columnIndex: 0,
     };
   },
   computed: {
-    ...mapState('dashboard', ['draggingList']),
-  },
-  created() {
-    this.columnIndex = this.index;
+    ...mapState('dashboard', ['draggingList', 'draggingItem']),
   },
   methods: {
-    ...mapMutations('dashboard', ['switchDraggingColumn', 'addColumnCard']),
+    ...mapMutations('dashboard', ['switchDraggingColumn', 'addColumnCard', 'insertDraggingCardItem']),
 
     handleMouseUp(event) {
       console.log('handleMouseUp');
@@ -136,7 +131,7 @@ export default {
       const dragList = {
         id: 'testId',
         node: nodeId,
-        index: this.columnIndex,
+        index: this.column.columnIndex,
       };
       this.$store.commit('dashboard/setDraggingList', dragList);
     },
@@ -153,22 +148,38 @@ export default {
       this.isMousePressing = false;
       this.top = 0;
       this.left = 0;
-      this.columnIndex = this.draggingList.index;
       this.$store.commit('dashboard/setDraggingList', null);
     },
     getMoveDistance(x, y) {
       return Math.sqrt((x - this.originX) ** 2 + (y - this.originY) ** 2);
     },
     handleMouseEnter(event) {
-      if (this.$store.state.dashboard.draggingList === null) {
+      if (this.draggingList === null && this.draggingItem === null) {
         return;
       }
-      console.log(`handleMouseEnter index:${this.columnIndex}`);
+
+      console.log(`handleMouseEnter index:${this.column.columnIndex}`);
       const { left, width } = this.$refs.wrapper.getBoundingClientRect();
       const displacementX = event.clientX - left;
       const deltaX = Math.abs(displacementX);
       const isInsertBefore = deltaX > width / 2;
       console.log({ deltaX });
+
+      if (this.draggingItem !== null) {
+        const target = document.getElementById(this.draggingItem.node);
+        const targetParent = target.parentNode;
+        targetParent.removeChild(target);
+        const refParent = this.$refs.cardList;
+        let itemIndex = 0;
+        if (isInsertBefore) {
+          refParent.appendChild(target);
+          itemIndex = this.column.cards.length;
+        } else {
+          refParent.prepend(target);
+        }
+        this.insertDraggingCardItem({ columnIndex: this.column.columnIndex, itemIndex });
+        return;
+      }
 
       const ref = this.$refs.wrapper;
       const refParent = ref.parentNode;
@@ -181,13 +192,11 @@ export default {
       } else {
         refParent.insertBefore(target, ref.nextSibling);
       }
-      const temp = this.columnIndex;
-      this.columnIndex = this.draggingList.index;
-      this.switchDraggingColumn(temp);
+      this.switchDraggingColumn(this.column.columnIndex);
     },
     addCard(title) {
       this.addColumnCard({
-        index: this.columnIndex,
+        index: this.column.columnIndex,
         title,
       });
     },

@@ -43,6 +43,8 @@ const fooCard = {
   desc: '運動',
   tags: ['熱身', '流汗'],
   todos: [fooTodo, barTodo],
+  columnIndex: 0,
+  itemIndex: 0,
 };
 const barCard = {
   id: '2',
@@ -50,7 +52,8 @@ const barCard = {
   desc: '流汗在泳池',
   tags: ['晚上', '每天'],
   todos: [fooTodo],
-
+  columnIndex: 0,
+  itemIndex: 1,
 };
 const bazCard = {
   id: '3',
@@ -58,7 +61,8 @@ const bazCard = {
   tags: ['中午', '每天'],
   desc: '',
   todos: [fooTodo],
-
+  columnIndex: 1,
+  itemIndex: 0,
 };
 const qarCard = {
   id: '4',
@@ -66,21 +70,24 @@ const qarCard = {
   desc: '',
   tags: ['早上', '每天', '假日', '早上', '每天', '假日'],
   todos: [fooTodo],
-
+  columnIndex: 1,
+  itemIndex: 1,
 };
 
 const fooColumn = {
   title: '待辦事項',
-  cards: ['1', '2'],
+  cards: [fooCard, barCard],
+  columnIndex: 0,
 };
 const barColumn = {
   title: '已完成',
-  cards: ['3', '4', '4', '4', '4', '4', '4', '4'],
+  cards: [bazCard, qarCard],
+  columnIndex: 1,
 };
 
 const state = () => ({
   cards: [fooCard, barCard, bazCard, qarCard],
-  columns: [fooColumn, barColumn, barColumn],
+  columns: [fooColumn, barColumn],
   draggingItem: null,
   draggingList: null,
   isShowDrawer: false,

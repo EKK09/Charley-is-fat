@@ -208,3 +208,70 @@ export function removeEmptyTodoItem(state) {
     }
   }
 }
+export function switchDraggingCardItem(state, cardItem) {
+  console.log('switchDraggingCardItem');
+  const dragItem = state.draggingItem.item;
+  const tempItem = { ...dragItem };
+
+  dragItem.itemIndex = cardItem.itemIndex;
+  dragItem.columnIndex = cardItem.columnIndex;
+
+  cardItem.itemIndex = tempItem.itemIndex;
+  cardItem.todoIndex = tempItem.todoIndex;
+  const { columns } = state;
+
+  columns[dragItem.columnIndex].cards[dragItem.itemIndex] = dragItem;
+  columns[cardItem.columnIndex].cards[cardItem.itemIndex] = cardItem;
+
+  columns.forEach((column) => {
+    console.log(column.cards.map((item) => (item ? item.title : undefined)));
+  });
+}
+export function insertDraggingCardItem(state, { columnIndex, itemIndex }) {
+  console.log('insertDraggingCardItem');
+  const dragItem = state.draggingItem.item;
+  state.columns[dragItem.columnIndex].cards[dragItem.itemIndex] = undefined;
+
+  const originDragColumnIndex = dragItem.columnIndex;
+
+  dragItem.columnIndex = columnIndex;
+  dragItem.itemIndex = itemIndex;
+  const targetCards = state.columns[columnIndex].cards;
+
+  if (itemIndex === 0) {
+    const originCount = targetCards.length;
+    targetCards.forEach((item, index) => {
+      targetCards[originCount - index] = targetCards[originCount - index - 1];
+      targetCards[originCount - index].itemIndex = originCount - index;
+    });
+
+    targetCards[0] = dragItem;
+  } else {
+    targetCards[itemIndex] = dragItem;
+  }
+
+  const originCards = state.columns[originDragColumnIndex].cards;
+  originCards.reduce((acc, card) => {
+    if (card !== undefined) {
+      card.itemIndex = acc;
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+
+  state.columns.forEach((column) => {
+    console.log(column.cards.map((item) => (item ? item.title : undefined)));
+  });
+}
+
+export function removeEmptyCard(state) {
+  console.log('removeEmptyCard');
+
+  state.columns = state.columns.map((column) => ({
+    ...column,
+    cards: column.cards.filter((card) => card !== undefined),
+  }));
+  state.columns.forEach((column) => {
+    console.log(column.cards.map((item) => (item ? item.title : undefined)));
+  });
+}
