@@ -1,10 +1,22 @@
 const fooTodoItem = {
+  id: '1',
   isFinish: false,
   label: '每天打球',
 };
 const barTodoItem = {
+  id: '2',
   isFinish: true,
   label: '每天睡覺',
+};
+const bazTodoItem = {
+  id: '3',
+  isFinish: true,
+  label: '三三',
+};
+const baqTodoItem = {
+  id: '4',
+  isFinish: true,
+  label: '四四',
 };
 const fooTodo = {
   title: '運動計畫',
@@ -12,7 +24,7 @@ const fooTodo = {
 };
 const barTodo = {
   title: '休息計畫',
-  items: [fooTodoItem, barTodoItem],
+  items: [bazTodoItem, baqTodoItem],
 };
 const fooCard = {
   id: '1',
