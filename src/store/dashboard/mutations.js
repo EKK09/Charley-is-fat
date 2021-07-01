@@ -53,12 +53,23 @@ export function setColumnTitle(state, { index, title }) {
 }
 
 export function switchDraggingColumn(state, index) {
-  const draggingListIndex = state.draggingList.index;
-  const tem = state.columns[draggingListIndex];
-  state.columns[draggingListIndex] = state.columns[index];
-  state.columns[index] = tem;
-  state.draggingList = { ...state.draggingList, index };
-  console.log(state.columns.map((c) => c.title));
+  const draggingColumnIndex = state.draggingList.item.columnIndex;
+
+  state.columns[draggingColumnIndex].columnIndex = index;
+  state.columns[draggingColumnIndex].cards.forEach((card) => {
+    card.columnIndex = index;
+  });
+  state.columns[index].columnIndex = draggingColumnIndex;
+  state.columns[index].cards.forEach((card) => {
+    card.columnIndex = draggingColumnIndex;
+  });
+  const temp = state.columns[draggingColumnIndex];
+  state.columns[draggingColumnIndex] = state.columns[index];
+  state.columns[index] = temp;
+  // state.draggingList = { ...state.draggingList, index };
+  state.columns.forEach((column) => {
+    console.log(column.cards.map((card) => card.title));
+  });
 }
 export function addColumnCard(state, { index, title }) {
   const id = getId();

@@ -131,7 +131,7 @@ export default {
       const dragList = {
         id: 'testId',
         node: nodeId,
-        index: this.column.columnIndex,
+        item: this.column,
       };
       this.$store.commit('dashboard/setDraggingList', dragList);
     },
