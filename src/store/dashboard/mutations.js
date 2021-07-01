@@ -124,3 +124,87 @@ export function switchDraggingTodo(state, index) {
     }
   }
 }
+export function switchDraggingTodoItem(state, todoItem) {
+  console.log('switchDraggingTodoItem');
+  if (!state.dialogCardId) {
+    return;
+  }
+  for (let i = 0; i < state.cards.length; i += 1) {
+    const card = state.cards[i];
+    if (card.id === state.dialogCardId) {
+      const dragItem = state.draggingItem.item;
+      const tempItem = { ...dragItem };
+
+      dragItem.itemIndex = todoItem.itemIndex;
+      dragItem.todoIndex = todoItem.todoIndex;
+
+      todoItem.itemIndex = tempItem.itemIndex;
+      todoItem.todoIndex = tempItem.todoIndex;
+      card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = dragItem;
+      card.todos[todoItem.todoIndex].items[todoItem.itemIndex] = todoItem;
+
+      card.todos.forEach((todo) => {
+        console.log(todo.items.map((item) => (item ? item.label : undefined)));
+      });
+    }
+  }
+}
+export function insertDraggingTodoItem(state, { todoIndex, itemIndex }) {
+  console.log('insertDraggingTodoItem');
+  if (!state.dialogCardId) {
+    return;
+  }
+  for (let i = 0; i < state.cards.length; i += 1) {
+    const card = state.cards[i];
+    if (card.id === state.dialogCardId) {
+      const dragItem = state.draggingItem.item;
+      card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = undefined;
+      const originDragTodoIndex = dragItem.todoIndex;
+      dragItem.todoIndex = todoIndex;
+      dragItem.itemIndex = itemIndex;
+      const targetItems = card.todos[todoIndex].items;
+      if (itemIndex === 0) {
+        const originCount = targetItems.length;
+        targetItems.forEach((item, index) => {
+          targetItems[originCount - index] = targetItems[originCount - index - 1];
+          targetItems[originCount - index].itemIndex = originCount - index;
+        });
+
+        targetItems[0] = dragItem;
+      } else {
+        targetItems[itemIndex] = dragItem;
+      }
+      const originItems = card.todos[originDragTodoIndex].items;
+      originItems.reduce((acc, item) => {
+        if (item !== undefined) {
+          item.itemIndex = acc;
+          return acc + 1;
+        }
+        return acc;
+      }, 0);
+
+      card.todos.forEach((todo) => {
+        console.log(todo.items.map((item) => (item ? item.label : undefined)));
+      });
+    }
+  }
+}
+
+export function removeEmptyTodoItem(state) {
+  console.log('removeEmptyTodoItem');
+  if (!state.dialogCardId) {
+    return;
+  }
+  for (let i = 0; i < state.cards.length; i += 1) {
+    const card = state.cards[i];
+    if (card.id === state.dialogCardId) {
+      card.todos = card.todos.map((todo) => ({
+        ...todo,
+        items: todo.items.filter((item) => !!item && item.label),
+      }));
+      card.todos.forEach((todo) => {
+        console.log(todo.items.map((item) => (item ? item.label : undefined)));
+      });
+    }
+  }
+}

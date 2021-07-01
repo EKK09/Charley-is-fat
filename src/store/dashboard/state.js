@@ -2,29 +2,40 @@ const fooTodoItem = {
   id: '1',
   isFinish: false,
   label: '每天打球',
+  itemIndex: 0,
+  todoIndex: 0,
+
 };
 const barTodoItem = {
   id: '2',
   isFinish: true,
   label: '每天睡覺',
+  itemIndex: 1,
+  todoIndex: 0,
 };
 const bazTodoItem = {
   id: '3',
   isFinish: true,
   label: '三三',
+  itemIndex: 0,
+  todoIndex: 1,
 };
 const baqTodoItem = {
   id: '4',
   isFinish: true,
   label: '四四',
+  itemIndex: 1,
+  todoIndex: 1,
 };
 const fooTodo = {
   title: '運動計畫',
   items: [fooTodoItem, barTodoItem],
+  todoIndex: 0,
 };
 const barTodo = {
   title: '休息計畫',
   items: [bazTodoItem, baqTodoItem],
+  todoIndex: 1,
 };
 const fooCard = {
   id: '1',

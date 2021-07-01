@@ -1,6 +1,8 @@
 <template>
   <div
+    v-if="todoItem"
     ref="wrapper"
+    class="non-selectable"
     @mouseenter="handleMouseEnter"
   >
     <div
@@ -125,22 +127,12 @@ export default {
       type: Object,
       required: true,
     },
-    todoIndex: {
-      type: Number,
-      required: true,
-    },
-    itemIndex: {
-      type: Number,
-      required: true,
-    },
   },
   data() {
     return {
       isShowInput: false,
       label: '',
       inputHideTimer: null,
-      localTodoIndex: 0,
-      localItemIndex: 0,
 
       shadowHeight: 0,
       top: 0,
@@ -153,15 +145,15 @@ export default {
   },
   computed: {
     ...mapState('dashboard', ['draggingItem']),
-
-  },
-  created() {
-    this.localTodoIndex = this.todoIndex;
-    this.localItemIndex = this.itemIndex;
   },
 
   methods: {
-    ...mapMutations('dashboard', ['updateTodoItem', 'setDraggingItem']),
+    ...mapMutations('dashboard', [
+      'updateTodoItem',
+      'setDraggingItem',
+      'switchDraggingTodoItem',
+      'removeEmptyTodoItem',
+    ]),
 
     showInput() {
       this.isShowInput = true;
@@ -204,8 +196,8 @@ export default {
     },
     updateItem(item) {
       this.updateTodoItem({
-        todoIndex: this.localTodoIndex,
-        itemIndex: this.localItemIndex,
+        todoIndex: this.todoItem.todoIndex,
+        itemIndex: this.todoItem.itemIndex,
         item,
       });
     },
@@ -218,17 +210,12 @@ export default {
 
     handleMouseUp() {
       console.log('handleMouseUp');
-      // const hasClickTextarea = event.path.includes(this.$refs.header.$refs.textarea);
       this.isMousePressing = false;
       this.showInput();
     },
     handleMouseDown(event) {
       console.log('handleMouseDown');
-
-      // if (this.$refs.header.isFocus()) {
-      //   console.log('打字中');
-      //   return;
-      // }
+      console.log({ todo: this.todoItem.todoIndex, index: this.todoItem.itemIndex });
       event.stopPropagation();
       event.preventDefault();
       this.isMousePressing = true;
@@ -241,7 +228,7 @@ export default {
       }
       console.log('handleMouseMove');
       const distance = this.getMoveDistanceY(event.y);
-      if (distance > 3) {
+      if (distance > 1) {
         this.setCardDragable();
         window.addEventListener('mousemove', this.handleWindowMouseMove);
         window.addEventListener('mouseup', this.handleWindowMouseUp);
@@ -261,7 +248,6 @@ export default {
       const {
         height, width, top, left,
       } = this.$refs.todo.getBoundingClientRect();
-      console.log({ top, left });
       this.top = top;
       this.left = left;
       this.$refs.wrapper.style.pointerEvents = 'none';
@@ -274,9 +260,8 @@ export default {
       const nodeId = 'dragging-list';
       this.$refs.wrapper.id = nodeId;
       const dragItem = {
-        id: 'testId',
         node: nodeId,
-        index: this.localItemIndex,
+        item: this.todoItem,
       };
       this.setDraggingItem(dragItem);
     },
@@ -294,8 +279,8 @@ export default {
       this.isMousePressing = false;
       this.top = 0;
       this.left = 0;
-      this.localItemIndex = this.draggingItem.index;
       this.setDraggingItem(null);
+      this.removeEmptyTodoItem();
     },
     getMoveDistanceY(y) {
       return Math.abs(y - this.originY);
@@ -304,7 +289,7 @@ export default {
       if (this.draggingItem === null) {
         return;
       }
-      console.log(`handleMouseEnter index:${this.localItemIndex}`);
+      console.log(`item handleMouseEnter todoIndex:${this.todoItem.todoIndex} index:${this.todoItem.itemIndex}`);
       const { top, height } = this.$refs.wrapper.getBoundingClientRect();
       const displacementY = event.clientY - top;
       const deltaY = Math.abs(displacementY);
@@ -313,7 +298,8 @@ export default {
 
       const ref = this.$refs.wrapper;
       const refParent = ref.parentNode;
-      const target = document.querySelector(`#${this.draggingItem.node}`);
+      const target = document.getElementById(this.draggingItem.node);
+
       const targetParent = target.parentNode;
       targetParent.removeChild(target);
 
@@ -322,9 +308,7 @@ export default {
       } else {
         refParent.insertBefore(target, ref.nextSibling);
       }
-      // const temp = this.localItemIndex;
-      this.localItemIndex = this.draggingItem.index;
-      // this.switchDraggingTodo(temp);
+      this.switchDraggingTodoItem(this.todoItem);
     },
   },
 };

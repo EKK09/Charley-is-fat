@@ -47,11 +47,9 @@
       </div>
       <div ref="itemList">
         <CardTodoItem
-          v-for="(item, iitemIdex) in todo.items"
-          :key="iitemIdex"
+          v-for="item in todo.items"
+          :key="item.id"
           :todo-item="item"
-          :todo-index="todoIndex"
-          :item-index="iitemIdex"
           :class="(item.isFinish && !isShwoFinishItem) ?'hide': ''"
         />
       </div>
@@ -134,7 +132,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapGetters } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoItem from 'src/components/dialog/CardTodoItem.vue';
 
@@ -169,7 +167,8 @@ export default {
     };
   },
   computed: {
-    ...mapState('dashboard', ['draggingList', 'draggingItem']),
+    ...mapState('dashboard', ['draggingList', 'draggingItem', 'tempCard']),
+    ...mapGetters('dashboard', ['dialogCard']),
     isShwoToggleFinishBtn() {
       return this.todo.items.some((item) => item.isFinish);
     },
@@ -185,7 +184,7 @@ export default {
     this.index = this.todoIndex;
   },
   methods: {
-    ...mapMutations('dashboard', ['addTodoItem', 'switchDraggingTodo']),
+    ...mapMutations('dashboard', ['addTodoItem', 'switchDraggingTodo', 'insertDraggingTodoItem']),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();
@@ -212,7 +211,7 @@ export default {
         isFinish: false,
         label: this.label,
       };
-      this.addTodoItem({ item, todoIndex: this.index });
+      this.addTodoItem({ item, todoIndex: this.todo.todoIndex });
       this.label = '';
     },
     handleTextareaBlur() {
@@ -229,6 +228,9 @@ export default {
       }, 0);
     },
     getFinishPercentage(todo) {
+      if (todo.items.length === 0) {
+        return 0;
+      }
       let finishCount = 0;
       todo.items.forEach((item) => {
         if (item.isFinish) {
@@ -300,7 +302,7 @@ export default {
       const dragList = {
         id: 'testId',
         node: nodeId,
-        index: this.index,
+        index: this.todo.todoIndex,
       };
       this.$store.commit('dashboard/setDraggingList', dragList);
     },
@@ -318,7 +320,7 @@ export default {
       this.isMousePressing = false;
       this.top = 0;
       this.left = 0;
-      this.index = this.draggingList.index;
+      // this.index = this.draggingList.index;
       this.$store.commit('dashboard/setDraggingList', null);
     },
     getMoveDistanceY(y) {
@@ -328,7 +330,7 @@ export default {
       if (this.draggingList === null && this.draggingItem === null) {
         return;
       }
-      console.log(`handleMouseEnter index:${this.index}`);
+      console.log(`todo handleMouseEnter todoIndex:${this.todo.todoIndex}`);
       const { top, height } = this.$refs.wrapper.getBoundingClientRect();
       const displacementY = event.clientY - top;
       const deltaY = Math.abs(displacementY);
@@ -340,11 +342,14 @@ export default {
         const targetParent = target.parentNode;
         targetParent.removeChild(target);
         const refParent = this.$refs.itemList;
+        let itemIndex = 0;
         if (isInsertBefore) {
           refParent.appendChild(target);
+          itemIndex = this.todo.items.length;
         } else {
           refParent.prepend(target);
         }
+        this.insertDraggingTodoItem({ todoIndex: this.todo.todoIndex, itemIndex });
         return;
       }
       const target = document.getElementById(this.draggingList.node);
@@ -358,9 +363,9 @@ export default {
       } else {
         refParent.insertBefore(target, ref.nextSibling);
       }
-      const temp = this.index;
-      this.index = this.draggingList.index;
-      this.switchDraggingTodo(temp);
+      // const temp = this.index;
+      // this.index = this.draggingList.index;
+      this.switchDraggingTodo(this.todo.todoIndex);
     },
   },
 };
