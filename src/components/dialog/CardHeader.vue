@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { outlinedTopic } from '@quasar/extras/material-icons-outlined';
 
 export default {
@@ -40,8 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('dashboard', ['dialogCardId']),
-    ...mapGetters('dashboard', ['dialogCard']),
+    ...mapState('dashboard', ['dialogCard']),
 
     editableTitle: {
       get() {

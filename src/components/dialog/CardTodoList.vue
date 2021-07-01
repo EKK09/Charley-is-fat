@@ -132,7 +132,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoItem from 'src/components/dialog/CardTodoItem.vue';
 
@@ -167,8 +167,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('dashboard', ['draggingList', 'draggingItem', 'tempCard']),
-    ...mapGetters('dashboard', ['dialogCard']),
+    ...mapState('dashboard', ['draggingList', 'draggingItem']),
     isShwoToggleFinishBtn() {
       return this.todo.items.some((item) => item.isFinish);
     },

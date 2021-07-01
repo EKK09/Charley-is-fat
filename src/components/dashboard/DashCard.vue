@@ -72,14 +72,14 @@ export default {
   methods: {
     ...mapMutations('dashboard', [
       'setIsShowDialog',
-      'setDialogCardId',
+      'setDialogCard',
       'switchDraggingCardItem',
       'removeEmptyCard',
     ]),
 
     handleMouseUp() {
       this.isMousePressing = false;
-      this.setDialogCardId(this.id);
+      this.setDialogCard(this.card);
       this.setIsShowDialog(true);
     },
     handleMouseDown(event) {

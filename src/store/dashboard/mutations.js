@@ -75,8 +75,8 @@ export function addColumnCard(state, { index, title }) {
 export function setIsShowDialog(state, val) {
   state.isShowDialog = val;
 }
-export function setDialogCardId(state, id) {
-  state.dialogCardId = id;
+export function setDialogCard(state, card) {
+  state.dialogCard = card;
 }
 export function updateCard(state, card) {
   for (let index = 0; index < state.cards.length; index += 1) {
@@ -87,126 +87,103 @@ export function updateCard(state, card) {
   }
 }
 export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
-  if (!state.dialogCardId) {
+  if (!state.dialogCard) {
     return;
   }
-  for (let index = 0; index < state.cards.length; index += 1) {
-    const card = state.cards[index];
-    if (card.id === state.dialogCardId) {
-      card.todos[todoIndex].items.splice(itemIndex, 1, item);
-    }
-  }
+
+  state.dialogCard.todos[todoIndex].items.splice(itemIndex, 1, item);
 }
 export function addTodoItem(state, { item, todoIndex }) {
-  if (!state.dialogCardId) {
+  if (!state.dialogCard) {
     return;
   }
-  for (let index = 0; index < state.cards.length; index += 1) {
-    const card = state.cards[index];
-    if (card.id === state.dialogCardId) {
-      card.todos[todoIndex].items.push(item);
-    }
-  }
+  state.dialogCard.todos[todoIndex].items.push(item);
 }
 export function switchDraggingTodo(state, index) {
-  if (!state.dialogCardId) {
+  if (!state.dialogCard) {
     return;
   }
+  const card = state.dialogCard;
   const draggingTodoIndex = state.draggingList.index;
-  for (let i = 0; i < state.cards.length; i += 1) {
-    const card = state.cards[i];
-    if (card.id === state.dialogCardId) {
-      const tem = card.todos[draggingTodoIndex];
-      card.todos[draggingTodoIndex] = card.todos[index];
-      card.todos[index] = tem;
-      state.draggingList = { ...state.draggingList, index };
-      console.log(card.todos.map((c) => c.title));
-    }
-  }
+  const tem = card.todos[draggingTodoIndex];
+  card.todos[draggingTodoIndex] = card.todos[index];
+  card.todos[index] = tem;
+  state.draggingList = { ...state.draggingList, index };
+  console.log(card.todos.map((c) => c.title));
 }
 export function switchDraggingTodoItem(state, todoItem) {
   console.log('switchDraggingTodoItem');
-  if (!state.dialogCardId) {
+  if (!state.dialogCard) {
     return;
   }
-  for (let i = 0; i < state.cards.length; i += 1) {
-    const card = state.cards[i];
-    if (card.id === state.dialogCardId) {
-      const dragItem = state.draggingItem.item;
-      const tempItem = { ...dragItem };
+  const card = state.dialogCard;
 
-      dragItem.itemIndex = todoItem.itemIndex;
-      dragItem.todoIndex = todoItem.todoIndex;
+  const dragItem = state.draggingItem.item;
+  const tempItem = { ...dragItem };
 
-      todoItem.itemIndex = tempItem.itemIndex;
-      todoItem.todoIndex = tempItem.todoIndex;
-      card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = dragItem;
-      card.todos[todoItem.todoIndex].items[todoItem.itemIndex] = todoItem;
+  dragItem.itemIndex = todoItem.itemIndex;
+  dragItem.todoIndex = todoItem.todoIndex;
 
-      card.todos.forEach((todo) => {
-        console.log(todo.items.map((item) => (item ? item.label : undefined)));
-      });
-    }
-  }
+  todoItem.itemIndex = tempItem.itemIndex;
+  todoItem.todoIndex = tempItem.todoIndex;
+  card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = dragItem;
+  card.todos[todoItem.todoIndex].items[todoItem.itemIndex] = todoItem;
+
+  card.todos.forEach((todo) => {
+    console.log(todo.items.map((item) => (item ? item.label : undefined)));
+  });
 }
 export function insertDraggingTodoItem(state, { todoIndex, itemIndex }) {
   console.log('insertDraggingTodoItem');
-  if (!state.dialogCardId) {
+  if (!state.dialogCard) {
     return;
   }
-  for (let i = 0; i < state.cards.length; i += 1) {
-    const card = state.cards[i];
-    if (card.id === state.dialogCardId) {
-      const dragItem = state.draggingItem.item;
-      card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = undefined;
-      const originDragTodoIndex = dragItem.todoIndex;
-      dragItem.todoIndex = todoIndex;
-      dragItem.itemIndex = itemIndex;
-      const targetItems = card.todos[todoIndex].items;
-      if (itemIndex === 0) {
-        const originCount = targetItems.length;
-        targetItems.forEach((item, index) => {
-          targetItems[originCount - index] = targetItems[originCount - index - 1];
-          targetItems[originCount - index].itemIndex = originCount - index;
-        });
+  const card = state.dialogCard;
 
-        targetItems[0] = dragItem;
-      } else {
-        targetItems[itemIndex] = dragItem;
-      }
-      const originItems = card.todos[originDragTodoIndex].items;
-      originItems.reduce((acc, item) => {
-        if (item !== undefined) {
-          item.itemIndex = acc;
-          return acc + 1;
-        }
-        return acc;
-      }, 0);
+  const dragItem = state.draggingItem.item;
+  card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = undefined;
+  const originDragTodoIndex = dragItem.todoIndex;
+  dragItem.todoIndex = todoIndex;
+  dragItem.itemIndex = itemIndex;
+  const targetItems = card.todos[todoIndex].items;
+  if (itemIndex === 0) {
+    const originCount = targetItems.length;
+    targetItems.forEach((item, index) => {
+      targetItems[originCount - index] = targetItems[originCount - index - 1];
+      targetItems[originCount - index].itemIndex = originCount - index;
+    });
 
-      card.todos.forEach((todo) => {
-        console.log(todo.items.map((item) => (item ? item.label : undefined)));
-      });
-    }
+    targetItems[0] = dragItem;
+  } else {
+    targetItems[itemIndex] = dragItem;
   }
+  const originItems = card.todos[originDragTodoIndex].items;
+  originItems.reduce((acc, item) => {
+    if (item !== undefined) {
+      item.itemIndex = acc;
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
+
+  card.todos.forEach((todo) => {
+    console.log(todo.items.map((item) => (item ? item.label : undefined)));
+  });
 }
 
 export function removeEmptyTodoItem(state) {
   console.log('removeEmptyTodoItem');
-  if (!state.dialogCardId) {
+  if (!state.dialogCard) {
     return;
   }
-  for (let i = 0; i < state.cards.length; i += 1) {
-    const card = state.cards[i];
-    if (card.id === state.dialogCardId) {
-      card.todos = card.todos.map((todo) => ({
-        ...todo,
-        items: todo.items.filter((item) => !!item && item.label),
-      }));
-      card.todos.forEach((todo) => {
-        console.log(todo.items.map((item) => (item ? item.label : undefined)));
-      });
-    }
-  }
+  const card = state.dialogCard;
+  card.todos = card.todos.map((todo) => ({
+    ...todo,
+    items: todo.items.filter((item) => !!item && item.label),
+  }));
+  card.todos.forEach((todo) => {
+    console.log(todo.items.map((item) => (item ? item.label : undefined)));
+  });
 }
 export function switchDraggingCardItem(state, cardItem) {
   console.log('switchDraggingCardItem');

@@ -95,7 +95,7 @@ const state = () => ({
   bgColorCode: '0279c0',
 
   isShowDialog: false,
-  dialogCardId: '',
+  dialogCard: null,
 
 });
 export default state;

@@ -1,6 +1,5 @@
 <template>
   <q-dialog
-    v-if="dialogCard"
     ref="dialog"
     v-model="isShow"
     maximized
@@ -32,7 +31,7 @@
   </q-dialog>
 </template>
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { outlinedTopic } from '@quasar/extras/material-icons-outlined';
 import CardHeader from 'src/components/dialog/CardHeader.vue';
 import CardContent from 'src/components/dialog/CardContent.vue';
@@ -44,12 +43,10 @@ export default {
   data() {
     return {
       outlinedTopic,
-      editableTitle: 'testestes',
     };
   },
   computed: {
-    ...mapState('dashboard', ['isShowDialog', 'dialogCardId']),
-    ...mapGetters('dashboard', ['dialogCard']),
+    ...mapState('dashboard', ['isShowDialog']),
 
     isShow: {
       get() {
@@ -57,14 +54,18 @@ export default {
       },
       set(val) {
         this.setIsShowDialog(val);
+        if (!val) {
+          this.setDialogCard(null);
+        }
       },
     },
 
   },
   methods: {
-    ...mapMutations('dashboard', ['setIsShowDialog']),
+    ...mapMutations('dashboard', ['setIsShowDialog', 'setDialogCard']),
     hideDialog() {
       this.$refs.dialog.hide();
+      this.setDialogCard(null);
     },
   },
 };

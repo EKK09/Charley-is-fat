@@ -97,7 +97,7 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoList from 'src/components/dialog/CardTodoList.vue';
 
@@ -113,7 +113,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('dashboard', ['dialogCard']),
+    ...mapState('dashboard', ['dialogCard']),
 
   },
   methods: {
