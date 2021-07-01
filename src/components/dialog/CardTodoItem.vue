@@ -31,7 +31,6 @@
             @mousedown="handleMouseDown"
             @mouseup="handleMouseUp"
             @mousemove="handleMouseMove"
-            @focus="showInput"
           >
             {{ todoItem.label }}
           </div>
@@ -221,9 +220,7 @@ export default {
       console.log('handleMouseUp');
       // const hasClickTextarea = event.path.includes(this.$refs.header.$refs.textarea);
       this.isMousePressing = false;
-      // if (this.$refs.header.isFocus() === false && hasClickTextarea) {
-      //   this.$refs.header.focus();
-      // }
+      this.showInput();
     },
     handleMouseDown(event) {
       console.log('handleMouseDown');
@@ -244,7 +241,7 @@ export default {
       }
       console.log('handleMouseMove');
       const distance = this.getMoveDistanceY(event.y);
-      if (distance > 5) {
+      if (distance > 3) {
         this.setCardDragable();
         window.addEventListener('mousemove', this.handleWindowMouseMove);
         window.addEventListener('mouseup', this.handleWindowMouseUp);
