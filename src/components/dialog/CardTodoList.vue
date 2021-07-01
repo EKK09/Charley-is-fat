@@ -45,7 +45,7 @@
           />
         </div>
       </div>
-      <div>
+      <div ref="itemList">
         <CardTodoItem
           v-for="(item, iitemIdex) in todo.items"
           :key="iitemIdex"
@@ -169,7 +169,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('dashboard', ['draggingList']),
+    ...mapState('dashboard', ['draggingList', 'draggingItem']),
     isShwoToggleFinishBtn() {
       return this.todo.items.some((item) => item.isFinish);
     },
@@ -325,7 +325,7 @@ export default {
       return Math.abs(y - this.originY);
     },
     handleMouseEnter(event) {
-      if (this.$store.state.dashboard.draggingList === null) {
+      if (this.draggingList === null && this.draggingItem === null) {
         return;
       }
       console.log(`handleMouseEnter index:${this.index}`);
@@ -335,11 +335,23 @@ export default {
       const isInsertBefore = deltaY > height / 2;
       console.log({ deltaY });
 
-      const ref = this.$refs.wrapper;
-      const refParent = ref.parentNode;
-      const target = refParent.querySelector(`#${this.$store.state.dashboard.draggingList.node}`);
+      if (this.draggingItem !== null) {
+        const target = document.getElementById(this.draggingItem.node);
+        const targetParent = target.parentNode;
+        targetParent.removeChild(target);
+        const refParent = this.$refs.itemList;
+        if (isInsertBefore) {
+          refParent.appendChild(target);
+        } else {
+          refParent.prepend(target);
+        }
+        return;
+      }
+      const target = document.getElementById(this.draggingList.node);
       const targetParent = target.parentNode;
       targetParent.removeChild(target);
+      const ref = this.$refs.wrapper;
+      const refParent = ref.parentNode;
 
       if (isInsertBefore) {
         refParent.insertBefore(target, ref);

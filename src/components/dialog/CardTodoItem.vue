@@ -1,107 +1,123 @@
 <template>
-  <div class="todo-wrapper">
+  <div
+    ref="wrapper"
+    @mouseenter="handleMouseEnter"
+  >
     <div
-      class="todo-checkbox flex-center flex"
-      :class="todoItem.isFinish?'checked': ''"
-      @click="toggleItemIsFinish"
+      ref="todo"
+      class="todo-wrapper"
+      :style="`top: ${top}px; left: ${left}px`"
     >
-      <q-icon
-        name="done"
-        color="white"
-        class="checkbox-icon"
-      />
-    </div>
-    <div>
       <div
-        v-show="!isShowInput"
-        class="todo-content-wrapper row"
+        class="todo-checkbox flex-center flex"
+        :class="todoItem.isFinish?'checked': ''"
+        @click="toggleItemIsFinish"
       >
-        <div
-          class="todo-content col"
-          :class="todoItem.isFinish?'checked': ''"
-          tabindex="1"
-          @focus="showInput"
-        >
-          {{ todoItem.label }}
-        </div>
-        <div class="option row">
-          <div class="option-item flex flex-center">
-            <q-icon name="schedule" />
-          </div>
-          <div class="option-item flex flex-center round">
-            <q-icon name="person_add_alt" />
-          </div>
-          <div class="option-item flex flex-center">
-            <q-icon name="more_horiz" />
-          </div>
-        </div>
-      </div>
-      <div
-        v-show="isShowInput"
-        style="padding-bottom: 9px;"
-      >
-        <textarea
-          ref="textarea"
-          v-model="label"
-          rows="2"
-          class="label-input"
-          @blur="handleTextareaBlur"
-          @input="handleTextareaInput"
+        <q-icon
+          name="done"
+          color="white"
+          class="checkbox-icon"
         />
-        <div class="row items-center">
+      </div>
+      <div>
+        <div
+          v-show="!isShowInput"
+          class="todo-content-wrapper row"
+        >
           <div
-            class="save-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium"
+            class="todo-content col"
+            :class="todoItem.isFinish?'checked': ''"
+            tabindex="1"
+            @mousedown="handleMouseDown"
+            @mouseup="handleMouseUp"
+            @mousemove="handleMouseMove"
+            @focus="showInput"
           >
-            儲存
+            {{ todoItem.label }}
           </div>
-          <q-icon
-            tabindex="2"
-            size="24px"
-            name="close"
-            style="color: #42526e; margin-left: 7px"
-            class="cursor-pointer"
-            @focus="handleCancelFocus"
-            @click="handleCancelClick"
+          <div class="option row">
+            <div class="option-item flex flex-center">
+              <q-icon name="schedule" />
+            </div>
+            <div class="option-item flex flex-center round">
+              <q-icon name="person_add_alt" />
+            </div>
+            <div class="option-item flex flex-center">
+              <q-icon name="more_horiz" />
+            </div>
+          </div>
+        </div>
+        <div
+          v-show="isShowInput"
+          style="padding-bottom: 9px;"
+        >
+          <textarea
+            ref="textarea"
+            v-model="label"
+            rows="2"
+            class="label-input"
+            @blur="handleTextareaBlur"
+            @input="handleTextareaInput"
           />
-          <q-space />
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="person_add_alt"
-            />
-            <div class="check-option-label">
-              指派
+          <div class="row items-center">
+            <div
+              class="save-btn q-py-sm q-px-md square-border cursor-pointer text-weight-medium"
+            >
+              儲存
             </div>
-          </div>
-          <div class="row items-center check-option no-wrap">
             <q-icon
-              name="schedule"
+              tabindex="2"
+              size="24px"
+              name="close"
+              style="color: #42526e; margin-left: 7px"
+              class="cursor-pointer"
+              @focus="handleCancelFocus"
+              @click="handleCancelClick"
             />
-            <div class="check-option-label">
-              到期日
+            <q-space />
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="person_add_alt"
+              />
+              <div class="check-option-label">
+                指派
+              </div>
             </div>
-          </div>
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="sentiment_satisfied_alt"
-            />
-          </div>
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="alternate_email"
-            />
-          </div>
-          <div class="row items-center check-option no-wrap">
-            <q-icon
-              name="more_horiz"
-            />
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="schedule"
+              />
+              <div class="check-option-label">
+                到期日
+              </div>
+            </div>
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="sentiment_satisfied_alt"
+              />
+            </div>
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="alternate_email"
+              />
+            </div>
+            <div class="row items-center check-option no-wrap">
+              <q-icon
+                name="more_horiz"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div
+      class="shadow"
+      :style="`height: ${shadowHeight}px`"
+    />
   </div>
 </template>
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'CardTodoItem',
@@ -126,7 +142,19 @@ export default {
       inputHideTimer: null,
       localTodoIndex: 0,
       localItemIndex: 0,
+
+      shadowHeight: 0,
+      top: 0,
+      left: 0,
+      isMousePressing: false,
+      isDraggable: false,
+      originY: 0,
+      offsetY: 0,
     };
+  },
+  computed: {
+    ...mapState('dashboard', ['draggingItem']),
+
   },
   created() {
     this.localTodoIndex = this.todoIndex;
@@ -134,7 +162,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations('dashboard', ['updateTodoItem']),
+    ...mapMutations('dashboard', ['updateTodoItem', 'setDraggingItem']),
 
     showInput() {
       this.isShowInput = true;
@@ -187,6 +215,119 @@ export default {
     },
     handleCancelFocus() {
       window.clearTimeout(this.inputHideTimer);
+    },
+
+    handleMouseUp() {
+      console.log('handleMouseUp');
+      // const hasClickTextarea = event.path.includes(this.$refs.header.$refs.textarea);
+      this.isMousePressing = false;
+      // if (this.$refs.header.isFocus() === false && hasClickTextarea) {
+      //   this.$refs.header.focus();
+      // }
+    },
+    handleMouseDown(event) {
+      console.log('handleMouseDown');
+
+      // if (this.$refs.header.isFocus()) {
+      //   console.log('打字中');
+      //   return;
+      // }
+      event.stopPropagation();
+      event.preventDefault();
+      this.isMousePressing = true;
+      this.originY = event.clientY;
+      this.offsetY = event.clientY - this.$refs.todo.getBoundingClientRect().top;
+    },
+    handleMouseMove(event) {
+      if (!this.isMousePressing || this.isDraggable) {
+        return;
+      }
+      console.log('handleMouseMove');
+      const distance = this.getMoveDistanceY(event.y);
+      if (distance > 5) {
+        this.setCardDragable();
+        window.addEventListener('mousemove', this.handleWindowMouseMove);
+        window.addEventListener('mouseup', this.handleWindowMouseUp);
+      }
+    },
+    handleWindowMouseUp() {
+      console.log('handleWindowMouseUp');
+      this.cancelCardDragable();
+      window.removeEventListener('mousemove', this.handleWindowMouseMove);
+      window.removeEventListener('mouseup', this.handleWindowMouseUp);
+    },
+    handleWindowMouseMove(event) {
+      this.top = event.clientY - this.offsetY;
+      this.left = event.clientX - this.offsetX;
+    },
+    setCardDragable() {
+      const {
+        height, width, top, left,
+      } = this.$refs.todo.getBoundingClientRect();
+      console.log({ top, left });
+      this.top = top;
+      this.left = left;
+      this.$refs.wrapper.style.pointerEvents = 'none';
+      document.body.classList.add('grab');
+      this.$refs.todo.style.width = `${width}px`;
+      this.$refs.todo.classList.add('draggableNr');
+      this.$refs.todo.classList.add('dragging');
+      this.shadowHeight = height;
+      this.isDraggable = true;
+      const nodeId = 'dragging-list';
+      this.$refs.wrapper.id = nodeId;
+      const dragItem = {
+        id: 'testId',
+        node: nodeId,
+        index: this.localItemIndex,
+      };
+      this.setDraggingItem(dragItem);
+    },
+    cancelCardDragable() {
+      this.$refs.todo.classList.remove('draggableNr');
+      this.$refs.todo.classList.remove('dragging');
+      document.body.classList.remove('grab');
+      this.$refs.wrapper.style.removeProperty('pointer-events');
+      this.$refs.todo.style.removeProperty('width');
+      this.$refs.todo.style.removeProperty('top');
+      this.$refs.todo.style.removeProperty('left');
+      this.$refs.wrapper.removeAttribute('id');
+      this.shadowHeight = 0;
+      this.isDraggable = false;
+      this.isMousePressing = false;
+      this.top = 0;
+      this.left = 0;
+      this.localItemIndex = this.draggingItem.index;
+      this.setDraggingItem(null);
+    },
+    getMoveDistanceY(y) {
+      return Math.abs(y - this.originY);
+    },
+    handleMouseEnter(event) {
+      if (this.draggingItem === null) {
+        return;
+      }
+      console.log(`handleMouseEnter index:${this.localItemIndex}`);
+      const { top, height } = this.$refs.wrapper.getBoundingClientRect();
+      const displacementY = event.clientY - top;
+      const deltaY = Math.abs(displacementY);
+      const isInsertBefore = deltaY > height / 2;
+      console.log({ deltaY, height });
+
+      const ref = this.$refs.wrapper;
+      const refParent = ref.parentNode;
+      const target = document.querySelector(`#${this.draggingItem.node}`);
+      const targetParent = target.parentNode;
+      targetParent.removeChild(target);
+
+      if (isInsertBefore) {
+        refParent.insertBefore(target, ref);
+      } else {
+        refParent.insertBefore(target, ref.nextSibling);
+      }
+      // const temp = this.localItemIndex;
+      this.localItemIndex = this.draggingItem.index;
+      // this.switchDraggingTodo(temp);
     },
   },
 };
@@ -326,5 +467,21 @@ export default {
   .check-option-label {
     text-decoration: underline;
   }
+}
+.todo-wrapper {
+  background-color: #f4f5f7;
+
+  &.dragging {
+    opacity: 0.9;
+  }
+}
+.draggableNr {
+  position: fixed;
+  z-index: 10000;
+  cursor: grabbing;
+}
+.shadow {
+  border-radius: 3px;
+  background-color: rgba(9,30,66,.04);
 }
 </style>
