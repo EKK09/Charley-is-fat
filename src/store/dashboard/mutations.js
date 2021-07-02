@@ -106,11 +106,18 @@ export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
 
   state.dialogCard.todos[todoIndex].items.splice(itemIndex, 1, item);
 }
-export function addTodoItem(state, { item, todoIndex }) {
+export function addTodoItem(state, { label, todoIndex }) {
   if (!state.dialogCard) {
     return;
   }
-  state.dialogCard.todos[todoIndex].items.push(item);
+  const todoItem = {
+    id: getId(),
+    isFinish: false,
+    label,
+    todoIndex,
+    itemIndex: state.dialogCard.todos[todoIndex].items.length,
+  };
+  state.dialogCard.todos[todoIndex].items.push(todoItem);
 }
 export function switchDraggingTodo(state, index) {
   if (!state.dialogCard) {

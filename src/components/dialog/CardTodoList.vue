@@ -202,11 +202,7 @@ export default {
     },
 
     addItem() {
-      const item = {
-        isFinish: false,
-        label: this.label,
-      };
-      this.addTodoItem({ item, todoIndex: this.todo.todoIndex });
+      this.addTodoItem({ label: this.label, todoIndex: this.todo.todoIndex });
       this.label = '';
     },
     handleTextareaBlur() {
