@@ -15,15 +15,18 @@
         size="20px"
         style="color: #6b778c"
       />
+      <ColumnHandleMenu :column-index="columnIndex" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
+import ColumnHandleMenu from 'src/components/menu/ColumnHandleMenu.vue';
 
 export default {
   name: 'DashListHeader',
+  components: { ColumnHandleMenu },
   props: {
     title: {
       type: String,
