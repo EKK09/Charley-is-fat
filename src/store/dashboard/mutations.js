@@ -78,15 +78,14 @@ export function switchDraggingColumn(state, index) {
   });
 }
 export function addColumnCard(state, { index, title }) {
-  const id = getId();
   const newCard = {
-    id,
+    id: getId(),
     title,
     tags: [],
+    columnIndex: index,
+    itemIndex: state.columns[index].cards.length,
   };
-  state.cards.push(newCard);
-  const column = state.columns[index];
-  column.cards.push(id);
+  state.columns[index].cards.push(newCard);
 }
 
 export function setIsShowDialog(state, val) {
