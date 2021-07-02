@@ -140,10 +140,6 @@ export default {
   name: 'CardTodoList',
   components: { CardTodoItem },
   props: {
-    todoIndex: {
-      type: Number,
-      required: true,
-    },
     todo: {
       type: Object,
       required: true,
@@ -155,7 +151,6 @@ export default {
       label: '',
       isShowInput: false,
       inputHideTimer: null,
-      index: 0,
       isShwoFinishItem: true,
       shadowHeight: 0,
       top: 0,
@@ -179,11 +174,12 @@ export default {
       return `顯示已打勾的項目(${finishCount})`;
     },
   },
-  created() {
-    this.index = this.todoIndex;
-  },
   methods: {
-    ...mapMutations('dashboard', ['addTodoItem', 'switchDraggingTodo', 'insertDraggingTodoItem']),
+    ...mapMutations('dashboard', [
+      'addTodoItem',
+      'switchDraggingTodo',
+      'insertDraggingTodoItem',
+    ]),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();
@@ -301,7 +297,7 @@ export default {
       const dragList = {
         id: 'testId',
         node: nodeId,
-        index: this.todo.todoIndex,
+        item: this.todo,
       };
       this.$store.commit('dashboard/setDraggingList', dragList);
     },
@@ -319,7 +315,6 @@ export default {
       this.isMousePressing = false;
       this.top = 0;
       this.left = 0;
-      // this.index = this.draggingList.index;
       this.$store.commit('dashboard/setDraggingList', null);
     },
     getMoveDistanceY(y) {
@@ -362,8 +357,6 @@ export default {
       } else {
         refParent.insertBefore(target, ref.nextSibling);
       }
-      // const temp = this.index;
-      // this.index = this.draggingList.index;
       this.switchDraggingTodo(this.todo.todoIndex);
     },
   },

@@ -28,11 +28,13 @@ const baqTodoItem = {
   todoIndex: 1,
 };
 const fooTodo = {
+  id: 'a',
   title: '運動計畫',
   items: [fooTodoItem, barTodoItem],
   todoIndex: 0,
 };
 const barTodo = {
+  id: 'b',
   title: '休息計畫',
   items: [bazTodoItem, baqTodoItem],
   todoIndex: 1,
@@ -75,11 +77,13 @@ const qarCard = {
 };
 
 const fooColumn = {
+  id: 'a',
   title: '待辦事項',
   cards: [fooCard, barCard],
   columnIndex: 0,
 };
 const barColumn = {
+  id: 'b',
   title: '已完成',
   cards: [bazCard, qarCard],
   columnIndex: 1,

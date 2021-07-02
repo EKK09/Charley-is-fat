@@ -71,9 +71,8 @@
     </div>
     <div>
       <CardTodoList
-        v-for="(todo, index) in dialogCard.todos"
-        :key="index"
-        :todo-index="index"
+        v-for="todo in dialogCard.todos"
+        :key="todo.id"
         :todo="todo"
         class="module"
       />

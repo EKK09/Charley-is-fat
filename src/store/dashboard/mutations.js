@@ -115,12 +115,24 @@ export function switchDraggingTodo(state, index) {
     return;
   }
   const card = state.dialogCard;
-  const draggingTodoIndex = state.draggingList.index;
-  const tem = card.todos[draggingTodoIndex];
+  const draggingTodoIndex = state.draggingList.item.todoIndex;
+  card.todos[draggingTodoIndex].todoIndex = index;
+  card.todos[draggingTodoIndex].items.forEach((item) => {
+    item.todoIndex = index;
+  });
+
+  card.todos[index].todoIndex = draggingTodoIndex;
+  card.todos[index].items.forEach((item) => {
+    item.todoIndex = draggingTodoIndex;
+  });
+
+  const temp = card.todos[draggingTodoIndex];
   card.todos[draggingTodoIndex] = card.todos[index];
-  card.todos[index] = tem;
-  state.draggingList = { ...state.draggingList, index };
-  console.log(card.todos.map((c) => c.title));
+  card.todos[index] = temp;
+  card.todos.forEach((todo) => {
+    console.log(todo.todoIndex);
+    console.log(todo.items.map((item) => item.label));
+  });
 }
 export function switchDraggingTodoItem(state, todoItem) {
   console.log('switchDraggingTodoItem');
@@ -191,9 +203,14 @@ export function removeEmptyTodoItem(state) {
     return;
   }
   const card = state.dialogCard;
-  card.todos = card.todos.map((todo) => ({
+  card.todos = card.todos.map((todo, todoIndex) => ({
     ...todo,
-    items: todo.items.filter((item) => !!item && item.label),
+    todoIndex,
+    items: todo.items.filter((item) => item !== undefined).map((item, index) => ({
+      ...item,
+      todoIndex,
+      itemIndex: index,
+    })),
   }));
   card.todos.forEach((todo) => {
     console.log(todo.items.map((item) => (item ? item.label : undefined)));
@@ -260,11 +277,11 @@ export function removeEmptyCard(state) {
   console.log('removeEmptyCard');
   state.columns = state.columns.map((column, columnIndex) => ({
     ...column,
-    cards: column.cards.filter((card) => card !== undefined).map((card, index) => {
-      card.itemIndex = index;
-      card.columnIndex = columnIndex;
-      return card;
-    }),
+    cards: column.cards.filter((card) => card !== undefined).map((card, index) => ({
+      ...card,
+      itemIndex: index,
+      columnIndex,
+    })),
   }));
   state.columns.forEach((column) => {
     console.log(column.cards.map((item) => (item ? item.title : undefined)));

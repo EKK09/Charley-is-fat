@@ -1,10 +1,9 @@
 <template>
   <div class="row no-wrap list-wrapper">
     <DashList
-      v-for="(column, index) in columns"
-      :key="index"
+      v-for="column in columns"
+      :key="column.id"
       :column="column"
-      :index="index"
     />
     <AddColumn />
   </div>
