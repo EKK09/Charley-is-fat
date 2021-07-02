@@ -2,7 +2,7 @@
   <div
     ref="wrapper"
     class="dash-list-wraper"
-    @mouseenter="handleMouseEnter"
+    @mouseover="handleMouseOver"
   >
     <div
       ref="list"
@@ -153,25 +153,35 @@ export default {
     getMoveDistance(x, y) {
       return Math.sqrt((x - this.originX) ** 2 + (y - this.originY) ** 2);
     },
-    handleMouseEnter(event) {
+    handleMouseOver(event) {
       if (this.draggingList === null && this.draggingItem === null) {
         return;
       }
 
       console.log(`handleMouseEnter index:${this.column.columnIndex}`);
-      const { left, width } = this.$refs.wrapper.getBoundingClientRect();
+      const {
+        left, width,
+      } = this.$refs.wrapper.getBoundingClientRect();
       const displacementX = event.clientX - left;
       const deltaX = Math.abs(displacementX);
       const isInsertBefore = deltaX > width / 2;
-      console.log({ deltaX });
 
       if (this.draggingItem !== null) {
+        if (this.draggingItem.item.columnIndex === this.column.columnIndex) {
+          return;
+        }
+        const {
+          top,
+        } = this.$refs.cardList.getBoundingClientRect();
+
+        const displacementY = event.clientY - top;
+        const isInsertBeforeY = displacementY > 0;
         const target = document.getElementById(this.draggingItem.node);
         const targetParent = target.parentNode;
         targetParent.removeChild(target);
         const refParent = this.$refs.cardList;
         let itemIndex = 0;
-        if (isInsertBefore) {
+        if (isInsertBeforeY) {
           refParent.appendChild(target);
           itemIndex = this.column.cards.length;
         } else {

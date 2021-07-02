@@ -155,15 +155,12 @@ export default {
       if (this.$store.state.dashboard.draggingItem === null) {
         return;
       }
+      console.log('card wraper handleMouseOver');
+      event.stopPropagation();
       const { top, height } = this.$refs.wrapper.getBoundingClientRect();
       const tagetCenterY = top + height / 2;
-
       const displacementY = event.clientY - tagetCenterY;
 
-      const deltaY = Math.abs(displacementY);
-      if (deltaY < 15) {
-        return;
-      }
       const ref = this.$refs.wrapper;
       const refParent = ref.parentNode;
       const target = document.getElementById(this.$store.state.dashboard.draggingItem.node);
