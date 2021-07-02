@@ -1,6 +1,30 @@
 <template>
   <div class="content">
     <div class="module">
+      <div
+        class="content-wrapper"
+        style="margin-top: 8px"
+      >
+        <div class="label">
+          標籤
+        </div>
+        <div class="tag-wrapper row wrap">
+          <div
+            v-for="(tag, index) in dialogCard.tags"
+            :key="index"
+            class="tag"
+            :style="`background-color: #${tag}`"
+          />
+          <div class="add-tag-btn flex flex-center">
+            <q-icon
+              name="add"
+              size="20px"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="module">
       <div class="header">
         <div class="header-icon flex flex-center">
           <q-icon
@@ -260,6 +284,46 @@ export default {
   transition-property: background-color,border-color,box-shadow;
   transition-duration: 85ms;
   transition-timing-function: ease;
+
+  &:hover {
+    background-color: rgba(9,30,66,.08);
+  }
+}
+.label {
+  font-weight: 700;
+  color: #5e6c84;
+  font-size: 12px;
+  line-height: 20px;
+  display: block;
+  margin: 0 8px 4px 0;
+}
+.tag {
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  font-weight: 600;
+  height: 32px;
+  line-height: 32px;
+  margin: 0 4px 4px 0;
+  min-width: 40px;
+  padding: 0 12px;
+  width: auto;
+  cursor: pointer;
+
+  &:hover {
+    opacity: .8;
+  }
+}
+
+.add-tag-btn {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(9,30,66,.04);
+  border-radius: 3px;
+  cursor: pointer;
+  float: left;
+  margin: 0 4px 4px 0;
 
   &:hover {
     background-color: rgba(9,30,66,.08);
