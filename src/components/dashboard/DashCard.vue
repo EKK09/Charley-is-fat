@@ -180,7 +180,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
+.card-wraper {
+  padding: 0 8px;
+}
 .dash-card {
   background-color: #fff;
   border-radius: 3px;

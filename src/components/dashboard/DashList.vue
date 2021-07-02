@@ -220,8 +220,8 @@ export default {
   position: relative;
 }
 .dash-card-list-wrapper {
-  padding: 0 4px;
-  margin: 0 4px;
+  padding: 0;
+  margin: 0;
   overflow-x: hidden;
   overflow-y: auto;
 
