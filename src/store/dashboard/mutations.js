@@ -44,6 +44,10 @@ export function addColumn(state, title) {
   };
   state.columns.push(column);
 }
+export function removeColumn(state, index) {
+  state.columns.splice(index, 1);
+}
+
 export function setColumnTitle(state, { index, title }) {
   state.columns[index].title = title;
   // const oldColumn = state.columns[index];
