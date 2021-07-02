@@ -136,7 +136,7 @@ export function switchDraggingTodoItem(state, todoItem) {
   dragItem.todoIndex = todoItem.todoIndex;
 
   todoItem.itemIndex = tempItem.itemIndex;
-  todoItem.todoIndex = tempItem.todoIndex;
+
   card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = dragItem;
   card.todos[todoItem.todoIndex].items[todoItem.itemIndex] = todoItem;
 
@@ -157,24 +157,27 @@ export function insertDraggingTodoItem(state, { todoIndex, itemIndex }) {
   dragItem.todoIndex = todoIndex;
   dragItem.itemIndex = itemIndex;
   const targetItems = card.todos[todoIndex].items;
-  if (itemIndex === 0) {
-    const originCount = targetItems.length;
-    targetItems.forEach((item, index) => {
-      targetItems[originCount - index] = targetItems[originCount - index - 1];
-      targetItems[originCount - index].itemIndex = originCount - index;
-    });
 
-    targetItems[0] = dragItem;
-  } else {
-    targetItems[itemIndex] = dragItem;
+  const lastItem = targetItems.reduce((acc, item, index, items) => {
+    if (index < itemIndex) {
+      return acc;
+    }
+    items[index] = acc;
+    if (item) {
+      item.itemIndex = index + 1;
+    }
+    return item;
+  }, dragItem);
+
+  if (lastItem) {
+    targetItems[targetItems.length] = lastItem;
   }
   const originItems = card.todos[originDragTodoIndex].items;
   originItems.reduce((acc, item) => {
     if (item !== undefined) {
       item.itemIndex = acc;
-      return acc + 1;
     }
-    return acc;
+    return acc + 1;
   }, 0);
 
   card.todos.forEach((todo) => {
