@@ -116,7 +116,7 @@ export default {
 
   },
   methods: {
-    ...mapMutations('dashboard', ['setIsShowDialog', 'updateCard']),
+    ...mapMutations('dashboard', ['setIsShowDialog', 'setDialogCardDesc']),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();
@@ -136,10 +136,8 @@ export default {
     },
 
     setCardDesc() {
-      this.updateCard({
-        ...this.dialogCard,
-        desc: this.description,
-      });
+      this.setDialogCardDesc(this.description);
+      this.description = '';
     },
     handleTextareaBlur() {
       this.descriptInputHideTimer = setTimeout(() => {

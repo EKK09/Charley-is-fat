@@ -102,6 +102,13 @@ export function updateCard(state, card) {
     }
   }
 }
+export function setDialogCardDesc(state, desc) {
+  if (!state.dialogCard) {
+    return;
+  }
+  state.dialogCard.desc = desc;
+}
+
 export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
   if (!state.dialogCard) {
     return;
