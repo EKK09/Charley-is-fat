@@ -37,8 +37,10 @@ export function setBgColor(state, code) {
 }
 export function addColumn(state, title) {
   const column = {
+    id: getId(),
     title,
     cards: [],
+    columnIndex: state.columns.length,
   };
   state.columns.push(column);
 }
