@@ -1,7 +1,7 @@
 <template>
   <div class="btn-wrapper">
-    <span class="icon"><slot name="icon" /></span>
-    <span class="label"><slot /></span>
+    <span class="icon absolute-left"><slot name="icon" /></span>
+    <slot />
   </div>
 </template>
 <script>
@@ -22,7 +22,7 @@ export default {
   margin-top: 8px;
   max-width: 300px;
   overflow: hidden;
-  padding: 6px 12px;
+  padding: 6px 12px 6px 32px;
   position: relative;
   text-decoration: none;
   text-overflow: ellipsis;
@@ -54,7 +54,7 @@ export default {
   }
 }
 .icon {
-  margin: 0 6px 0 -4px;
+  margin: 6px 6px 6px 8px;
   height: 20px;
   font-size: 16px;
   line-height: 20px;
