@@ -5,8 +5,34 @@
         新增至卡片
       </div>
       <CardSideButton
-        v-for="(item, index) in buttonItems"
-        :key="index"
+        v-for="(item) in buttonItems.filter((v, i) => i < 2)"
+        :key="item.icon"
+      >
+        <template #icon>
+          <q-icon
+            :name="item.icon"
+            size="16px"
+          />
+        </template>
+        <template #default>
+          {{ item.label }}
+        </template>
+      </CardSideButton>
+      <CardSideButton>
+        <template #icon>
+          <q-icon
+            :name="buttonItems[2].icon"
+            size="16px"
+          />
+        </template>
+        <template #default>
+          {{ buttonItems[2].label }}
+          <AddTodoMenu />
+        </template>
+      </CardSideButton>
+      <CardSideButton
+        v-for="(item) in buttonItems.filter((v, i) => i > 2)"
+        :key="item.icon"
       >
         <template #icon>
           <q-icon
@@ -104,10 +130,11 @@
 import { mapMutations, mapState, mapGetters } from 'vuex';
 import { outlinedTopic, outlinedCheckBox, outlinedSell } from '@quasar/extras/material-icons-outlined';
 import CardSideButton from 'src/components/dialog/CardSideButton.vue';
+import AddTodoMenu from 'src/components/menu/AddTodoMenu.vue';
 
 export default {
   name: 'CardSide',
-  components: { CardSideButton },
+  components: { CardSideButton, AddTodoMenu },
   data() {
     return {
       outlinedTopic,
