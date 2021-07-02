@@ -205,7 +205,6 @@ export function switchDraggingCardItem(state, cardItem) {
   dragItem.columnIndex = cardItem.columnIndex;
 
   cardItem.itemIndex = tempItem.itemIndex;
-  cardItem.todoIndex = tempItem.todoIndex;
   const { columns } = state;
 
   columns[dragItem.columnIndex].cards[dragItem.itemIndex] = dragItem;
@@ -226,25 +225,27 @@ export function insertDraggingCardItem(state, { columnIndex, itemIndex }) {
   dragItem.itemIndex = itemIndex;
   const targetCards = state.columns[columnIndex].cards;
 
-  if (itemIndex === 0) {
-    const originCount = targetCards.length;
-    targetCards.forEach((item, index) => {
-      targetCards[originCount - index] = targetCards[originCount - index - 1];
-      targetCards[originCount - index].itemIndex = originCount - index;
-    });
+  const lastItem = targetCards.reduce((acc, card, index, cards) => {
+    if (index < itemIndex) {
+      return acc;
+    }
+    cards[index] = acc;
+    if (card) {
+      card.itemIndex = index + 1;
+    }
+    return card;
+  }, dragItem);
 
-    targetCards[0] = dragItem;
-  } else {
-    targetCards[itemIndex] = dragItem;
+  if (lastItem) {
+    targetCards[targetCards.length] = lastItem;
   }
 
   const originCards = state.columns[originDragColumnIndex].cards;
   originCards.reduce((acc, card) => {
     if (card !== undefined) {
       card.itemIndex = acc;
-      return acc + 1;
     }
-    return acc;
+    return acc + 1;
   }, 0);
 
   state.columns.forEach((column) => {
@@ -254,10 +255,13 @@ export function insertDraggingCardItem(state, { columnIndex, itemIndex }) {
 
 export function removeEmptyCard(state) {
   console.log('removeEmptyCard');
-
-  state.columns = state.columns.map((column) => ({
+  state.columns = state.columns.map((column, columnIndex) => ({
     ...column,
-    cards: column.cards.filter((card) => card !== undefined),
+    cards: column.cards.filter((card) => card !== undefined).map((card, index) => {
+      card.itemIndex = index;
+      card.columnIndex = columnIndex;
+      return card;
+    }),
   }));
   state.columns.forEach((column) => {
     console.log(column.cards.map((item) => (item ? item.title : undefined)));

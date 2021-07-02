@@ -74,6 +74,7 @@ export default {
       'setIsShowDialog',
       'setDialogCard',
       'switchDraggingCardItem',
+      'insertDraggingCardItem',
       'removeEmptyCard',
     ]),
 
@@ -166,12 +167,33 @@ export default {
       const target = document.getElementById(this.$store.state.dashboard.draggingItem.node);
       const targetParent = target.parentNode;
       targetParent.removeChild(target);
-      if (displacementY > 0) {
-        refParent.insertBefore(target, ref);
-      } else {
-        refParent.insertBefore(target, ref.nextSibling);
+
+      const iSameColumn = this.draggingItem.item.columnIndex === this.card.columnIndex;
+
+      if (iSameColumn) {
+        if (displacementY > 0) {
+          refParent.insertBefore(target, ref);
+        } else {
+          refParent.insertBefore(target, ref.nextSibling);
+        }
+
+        this.switchDraggingCardItem(this.card);
+        return;
       }
-      this.switchDraggingCardItem(this.card);
+
+      if (displacementY > 0) {
+        this.insertDraggingCardItem({
+          columnIndex: this.card.columnIndex,
+          itemIndex: this.card.itemIndex + 1,
+        });
+        refParent.insertBefore(target, ref.nextSibling);
+      } else {
+        this.insertDraggingCardItem({
+          columnIndex: this.card.columnIndex,
+          itemIndex: this.card.itemIndex,
+        });
+        refParent.insertBefore(target, ref);
+      }
     },
   },
 };
