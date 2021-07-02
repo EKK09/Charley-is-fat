@@ -7,7 +7,11 @@
       <div class="label">
         標題
       </div>
-      <input class="label-input">
+      <input
+        ref="input"
+        v-model.trim="title"
+        class="label-input"
+      >
       <div class="label">
         從...複製項目
       </div>
@@ -21,6 +25,8 @@
       </select>
       <div
         class="save-btn square-border cursor-pointer text-weight-medium"
+        tabindex="2"
+        @click="handleSubmit"
       >
         新增
       </div>
@@ -37,10 +43,21 @@ export default {
 
   data() {
     return {
+      title: '待辦清單',
     };
   },
   methods: {
-    ...mapMutations('dashboard', ['removeColumn']),
+    ...mapMutations('dashboard', ['addDialogCardTodo']),
+    handleSubmit() {
+      if (!this.title) {
+        setTimeout(() => {
+          this.$refs.input.focus();
+        }, 20);
+        return;
+      }
+      this.addDialogCardTodo(this.title);
+      this.$refs.menu.$refs.menu.hide();
+    },
   },
 };
 </script>
@@ -59,6 +76,8 @@ export default {
 
   .label-input {
     margin: 4px 0 12px;
+    color: #172b4d;
+    font-weight: 450;
     width: 100%;
     outline: none;
     border: none;

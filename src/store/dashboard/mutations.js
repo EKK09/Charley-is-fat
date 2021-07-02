@@ -108,6 +108,18 @@ export function setDialogCardDesc(state, desc) {
   }
   state.dialogCard.desc = desc;
 }
+export function addDialogCardTodo(state, title) {
+  if (!state.dialogCard) {
+    return;
+  }
+  const newTodo = {
+    id: getId(),
+    title,
+    todoIndex: state.dialogCard.todos.length,
+    items: [],
+  };
+  state.dialogCard.todos.push(newTodo);
+}
 
 export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
   if (!state.dialogCard) {
