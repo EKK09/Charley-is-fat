@@ -411,6 +411,10 @@ export default {
   &:hover {
     background-color: rgba(9,30,66,.08);
   }
+  &:active {
+    background-color: #e4f0f6;
+    color: #0079bf;
+  }
 }
 
 .progress-bar-wrapper {
