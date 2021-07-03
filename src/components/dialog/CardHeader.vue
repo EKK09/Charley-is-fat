@@ -24,7 +24,7 @@
       />
     </div>
     <div style="margin: 2px 8px 5px 2px;">
-      在「待辦事項」列表中
+      在「<span class="column-title">{{ columnTitle }}</span>」列表中
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('dashboard', ['dialogCard']),
+    ...mapState('dashboard', ['dialogCard', 'columns']),
 
     editableTitle: {
       get() {
@@ -49,6 +49,9 @@ export default {
       set(val) {
         this.setTitle(val);
       },
+    },
+    columnTitle() {
+      return this.columns[this.dialogCard.columnIndex].title;
     },
   },
   mounted() {
@@ -89,6 +92,7 @@ export default {
   min-height: 32px;
   position: relative;
   z-index: 1;
+  color: #5e6c84;
 }
 .title-icon {
   height: 32px;
@@ -111,10 +115,20 @@ export default {
   padding: 4px 8px;
   resize: none;
   box-sizing: border-box;
+  display: flex;
 }
 
 .editable:focus {
   box-shadow: inset 0 0 0 2px #0079bf;
   background-color: white;
+}
+.column-title {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #5e6c84;
+
+  &:hover{
+    color: #172b4d;
+  }
 }
 </style>
