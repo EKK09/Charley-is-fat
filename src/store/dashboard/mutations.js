@@ -128,7 +128,7 @@ export function addDialogCardTodo(state, title) {
   };
   state.dialogCard.todos.push(newTodo);
   state.dialogCard.actions.unshift({
-    text: `已將「${title}」這張卡片新增到`,
+    text: `已將「${title}」這張卡片新增到這張卡片`,
     time: Date.now(),
   });
 }
