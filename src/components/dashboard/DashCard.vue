@@ -17,7 +17,7 @@
           v-for="(tag, index) in card.tags"
           :key="index"
           class="tag"
-          :class="`bg-${tags[index]}`"
+          :style="`background-color: #${tag}`"
         />
       </div>
       <div class="title">
@@ -56,14 +56,6 @@ export default {
       offsetY: 0,
       originX: 0,
       originY: 0,
-      tags: [
-        'primary',
-        'positive',
-        'info',
-        'warning',
-        'accent',
-        'dark',
-      ],
     };
   },
   computed: {
