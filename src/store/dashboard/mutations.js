@@ -138,6 +138,13 @@ export function removeDialogCardTag(state, tag) {
   }
 }
 
+export function toggleDialogCardHasMember(state) {
+  if (!state.dialogCard) {
+    return;
+  }
+  state.dialogCard.hasMember = !state.dialogCard.hasMember;
+}
+
 export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
   if (!state.dialogCard) {
     return;

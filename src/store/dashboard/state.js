@@ -47,6 +47,7 @@ const fooCard = {
   todos: [fooTodo, barTodo],
   columnIndex: 0,
   itemIndex: 0,
+  hasMember: false,
 };
 const barCard = {
   id: '2',
@@ -56,6 +57,7 @@ const barCard = {
   todos: [fooTodo],
   columnIndex: 0,
   itemIndex: 1,
+  hasMember: false,
 };
 const bazCard = {
   id: '3',
@@ -65,6 +67,7 @@ const bazCard = {
   todos: [fooTodo],
   columnIndex: 1,
   itemIndex: 0,
+  hasMember: false,
 };
 const qarCard = {
   id: '4',
@@ -74,6 +77,7 @@ const qarCard = {
   todos: [fooTodo],
   columnIndex: 1,
   itemIndex: 1,
+  hasMember: false,
 };
 
 const fooColumn = {
