@@ -45,6 +45,10 @@
             </div>
             <div class="option-item flex flex-center">
               <q-icon name="more_horiz" />
+              <DeleteTodoItemMenu
+                :todo-index="todoItem.todoIndex"
+                :item-index="todoItem.itemIndex"
+              />
             </div>
           </div>
         </div>
@@ -119,9 +123,11 @@
 </template>
 <script>
 import { mapMutations, mapState } from 'vuex';
+import DeleteTodoItemMenu from 'src/components/menu/DeleteTodoItemMenu.vue';
 
 export default {
   name: 'CardTodoItem',
+  components: { DeleteTodoItemMenu },
   props: {
     todoItem: {
       type: Object,

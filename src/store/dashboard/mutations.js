@@ -148,6 +148,15 @@ export function removeDialogCardTodo(state, todoIndex) {
     todo.items.forEach((item) => { item.todoIndex = index; });
   });
 }
+export function removeDialogCardTodoItem(state, { todoIndex, itemIndex }) {
+  if (!state.dialogCard) {
+    return;
+  }
+  state.dialogCard.todos[todoIndex].items.splice(itemIndex, 1);
+  state.dialogCard.todos[todoIndex].items.forEach((item, index) => {
+    item.itemIndex = index;
+  });
+}
 export function addDialogCardTag(state, tag) {
   if (!state.dialogCard) {
     return;
