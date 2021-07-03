@@ -47,7 +47,7 @@ export default {
         return this.dialogCard.title;
       },
       set(val) {
-        this.setTitle(val);
+        this.setDialogCardTitle(val);
       },
     },
     columnTitle() {
@@ -58,13 +58,7 @@ export default {
     this.resetInputheight();
   },
   methods: {
-    ...mapMutations('dashboard', ['setIsShowDialog', 'updateCard']),
-    setTitle(title) {
-      this.updateCard({ ...this.dialogCard, title });
-    },
-    hideDialog() {
-      this.$refs.dialog.hide();
-    },
+    ...mapMutations('dashboard', ['setDialogCardTitle']),
     handleTextareaInput() {
       setTimeout(() => {
         this.resetInputheight();

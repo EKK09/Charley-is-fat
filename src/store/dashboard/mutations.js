@@ -116,6 +116,12 @@ export function setDialogCardDesc(state, desc) {
   }
   state.dialogCard.desc = desc;
 }
+export function setDialogCardTitle(state, title) {
+  if (!state.dialogCard) {
+    return;
+  }
+  state.dialogCard.title = title;
+}
 export function addDialogCardTodo(state, title) {
   if (!state.dialogCard) {
     return;
