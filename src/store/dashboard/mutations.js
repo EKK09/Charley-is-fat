@@ -120,6 +120,23 @@ export function addDialogCardTodo(state, title) {
   };
   state.dialogCard.todos.push(newTodo);
 }
+export function addDialogCardTag(state, tag) {
+  if (!state.dialogCard) {
+    return;
+  }
+  state.dialogCard.tags.push(tag);
+}
+export function removeDialogCardTag(state, tag) {
+  if (!state.dialogCard) {
+    return;
+  }
+  const { tags } = state.dialogCard;
+  for (let index = 0; index < tags.length; index += 1) {
+    if (tags[index] === tag) {
+      tags.splice(index, 1);
+    }
+  }
+}
 
 export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
   if (!state.dialogCard) {

@@ -15,7 +15,7 @@
       >
       <div class="tag-list">
         <div
-          v-for="(tag, index) in tags"
+          v-for="(tag, index) in tagOptions"
           :key="index"
           class="tag-wrapper relative-position cursor-pointer"
         >
@@ -24,8 +24,12 @@
             :style="`background-color: #${tag}`"
             @mouseover="(e)=> handleTagHover(e,tag)"
             @mouseleave="handleTagUnhover"
+            @click="handleTagClick(tag)"
           >
-            <div class="tag-icon flex flex-center absolute-top-right">
+            <div
+              v-show="hasSelected(tag)"
+              class="tag-icon flex flex-center absolute-top-right"
+            >
               <q-icon
                 name="check"
                 color="white"
@@ -53,7 +57,7 @@
 </template>
 <script>
 import BaseMenu from 'src/components/menu/BaseMenu.vue';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'AddTagMenu',
@@ -62,21 +66,17 @@ export default {
   data() {
     return {
       tagLabel: '',
-      tags: ['61bd4f', 'f2d600', 'ff9f1a', 'eb5a46', 'c377e0', '0079bf', '00c2e0', 'ff78cb', '97a0af'],
+      tagOptions: ['61bd4f', 'f2d600', 'ff9f1a', 'eb5a46', 'c377e0', '0079bf', '00c2e0', 'ff78cb', '97a0af'],
     };
   },
-  methods: {
-    ...mapMutations('dashboard', ['addDialogCardTodo']),
-    handleSubmit() {
-      if (!this.title) {
-        setTimeout(() => {
-          this.$refs.input.focus();
-        }, 20);
-        return;
-      }
-      this.addDialogCardTodo(this.title);
-      this.$refs.menu.$refs.menu.hide();
+  computed: {
+    ...mapState('dashboard', ['dialogCard']),
+    tags() {
+      return this.dialogCard.tags;
     },
+  },
+  methods: {
+    ...mapMutations('dashboard', ['addDialogCardTag', 'removeDialogCardTag']),
     handleTagHover(event, tag) {
       const tagNode = event.target;
       tagNode.style.boxShadow = `-8px 0 #${tag}`;
@@ -84,6 +84,16 @@ export default {
     handleTagUnhover(event) {
       const tagNode = event.target;
       tagNode.style.boxShadow = 'none';
+    },
+    hasSelected(tag) {
+      return this.tags.includes(tag);
+    },
+    handleTagClick(tag) {
+      if (this.hasSelected(tag)) {
+        this.removeDialogCardTag(tag);
+      } else {
+        this.addDialogCardTag(tag);
+      }
     },
   },
 };
