@@ -48,15 +48,15 @@
           </div>
         </div>
         <q-space />
-        <!-- 實作卡片成員頭像 -->
-        <!-- <q-avatar
+        <q-avatar
+          v-show="card.hasMember"
           size="32px"
         >
           <img
             src="/images/user.jpeg"
             style="object-fit: cover"
           >
-        </q-avatar> -->
+        </q-avatar>
       </div>
       <div class="edit-btn absolute-top-right flex flex-center">
         <q-icon name="mode_edit_outline" />
