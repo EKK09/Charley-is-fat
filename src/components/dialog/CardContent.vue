@@ -2,27 +2,58 @@
   <div class="content">
     <div class="module">
       <div
-        class="content-wrapper"
+        class="content-wrapper row"
         style="margin-top: 8px"
       >
-        <div class="label">
-          標籤
-        </div>
-        <div class="tag-wrapper row wrap">
-          <div
-            v-for="(tag, index) in dialogCard.tags"
-            :key="index"
-            class="tag"
-            :style="`background-color: #${tag}`"
-          >
-            <AddTagMenu />
+        <div
+          v-show="dialogCard.hasMember"
+          style="margin-right: 8px"
+        >
+          <div class="label">
+            成員
           </div>
-          <div class="add-tag-btn flex flex-center">
-            <q-icon
-              name="add"
-              size="20px"
-            />
-            <AddTagMenu />
+          <div class="tag-wrapper row wrap">
+            <q-avatar
+              size="32px"
+              class="q-mr-sm cursor-pointer"
+            >
+              <img
+                src="/images/user.jpeg"
+                style="object-fit: cover"
+              >
+            </q-avatar>
+            <div
+              class="add-tag-btn flex flex-center"
+              style="border-radius: 50%"
+            >
+              <q-icon
+                name="add"
+                size="20px"
+              />
+              <AddMemberMenu />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="label">
+            標籤
+          </div>
+          <div class="tag-wrapper row wrap">
+            <div
+              v-for="(tag, index) in dialogCard.tags"
+              :key="index"
+              class="tag"
+              :style="`background-color: #${tag}`"
+            >
+              <AddTagMenu />
+            </div>
+            <div class="add-tag-btn flex flex-center">
+              <q-icon
+                name="add"
+                size="20px"
+              />
+              <AddTagMenu />
+            </div>
           </div>
         </div>
       </div>
@@ -127,10 +158,11 @@ import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoList from 'src/components/dialog/CardTodoList.vue';
 import AddTagMenu from 'src/components/menu/AddTagMenu.vue';
+import AddMemberMenu from 'src/components/menu/AddMemberMenu.vue';
 
 export default {
   name: 'CardContent',
-  components: { CardTodoList, AddTagMenu },
+  components: { CardTodoList, AddTagMenu, AddMemberMenu },
   data() {
     return {
       outlinedCheckBox,

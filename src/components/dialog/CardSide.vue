@@ -13,6 +13,7 @@
         </template>
         <template #default>
           {{ buttonItems[0].label }}
+          <AddMemberMenu />
         </template>
       </CardSideButton>
       <CardSideButton>
@@ -141,10 +142,13 @@ import { outlinedTopic, outlinedCheckBox, outlinedSell } from '@quasar/extras/ma
 import CardSideButton from 'src/components/dialog/CardSideButton.vue';
 import AddTodoMenu from 'src/components/menu/AddTodoMenu.vue';
 import AddTagMenu from 'src/components/menu/AddTagMenu.vue';
+import AddMemberMenu from 'src/components/menu/AddMemberMenu.vue';
 
 export default {
   name: 'CardSide',
-  components: { CardSideButton, AddTodoMenu, AddTagMenu },
+  components: {
+    CardSideButton, AddTodoMenu, AddTagMenu, AddMemberMenu,
+  },
   data() {
     return {
       outlinedTopic,
