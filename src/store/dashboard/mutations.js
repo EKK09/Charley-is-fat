@@ -132,6 +132,22 @@ export function addDialogCardTodo(state, title) {
     time: Date.now(),
   });
 }
+export function removeDialogCardTodo(state, todoIndex) {
+  if (!state.dialogCard) {
+    return;
+  }
+
+  const removeItems = state.dialogCard.todos.splice(todoIndex, 1);
+  const actionText = ` 已從這張卡片中移除「${removeItems[0].title}」`;
+  state.dialogCard.actions.unshift({
+    text: actionText,
+    time: Date.now(),
+  });
+  state.dialogCard.todos.forEach((todo, index) => {
+    todo.todoIndex = index;
+    todo.items.forEach((item) => { item.todoIndex = index; });
+  });
+}
 export function addDialogCardTag(state, tag) {
   if (!state.dialogCard) {
     return;

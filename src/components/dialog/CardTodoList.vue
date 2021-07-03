@@ -34,6 +34,10 @@
         </div>
         <div class="helper">
           刪除
+          <DeleteTodoMenu
+            :todo-index="todo.todoIndex"
+            :title="todo.title"
+          />
         </div>
       </div>
       <div class="progress-bar-wrapper">
@@ -135,10 +139,11 @@
 import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoItem from 'src/components/dialog/CardTodoItem.vue';
+import DeleteTodoMenu from 'src/components/menu/DeleteTodoMenu.vue';
 
 export default {
   name: 'CardTodoList',
-  components: { CardTodoItem },
+  components: { CardTodoItem, DeleteTodoMenu },
   props: {
     todo: {
       type: Object,
