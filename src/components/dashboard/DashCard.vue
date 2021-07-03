@@ -251,7 +251,6 @@ export default {
   cursor: pointer;
   display: block;
   min-height: 20px;
-  position: relative;
   text-decoration: none;
   margin-bottom: 8px;
   z-index: 0;
@@ -262,8 +261,9 @@ export default {
   .title {
     margin: 0 0 4px;
     overflow: hidden;
-    text-decoration: none;
     word-wrap: break-word;
+    white-space: normal;
+    font-weight: 500;
     color: #172b4d;
   }
 
