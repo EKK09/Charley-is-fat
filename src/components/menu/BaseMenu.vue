@@ -49,6 +49,7 @@ export default {
   overflow: hidden;
   width: 304px;
   padding-bottom: 12px;
+  user-select: none;
 }
 
 .menu-header{
