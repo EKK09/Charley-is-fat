@@ -14,12 +14,15 @@
             :key="index"
             class="tag"
             :style="`background-color: #${tag}`"
-          />
+          >
+            <AddTagMenu />
+          </div>
           <div class="add-tag-btn flex flex-center">
             <q-icon
               name="add"
               size="20px"
             />
+            <AddTagMenu />
           </div>
         </div>
       </div>
@@ -123,10 +126,11 @@
 import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoList from 'src/components/dialog/CardTodoList.vue';
+import AddTagMenu from 'src/components/menu/AddTagMenu.vue';
 
 export default {
   name: 'CardContent',
-  components: { CardTodoList },
+  components: { CardTodoList, AddTagMenu },
   data() {
     return {
       outlinedCheckBox,
