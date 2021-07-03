@@ -23,6 +23,41 @@
       <div class="title">
         {{ card.title }}
       </div>
+      <div class="card-detail row">
+        <div
+          v-show="card.desc"
+          class="card-detail-item flex flex-center"
+        >
+          <q-icon
+            name="subject"
+            size="16px"
+          />
+        </div>
+        <div
+          v-show="card.todos.length"
+          class="card-detail-item flex flex-center"
+        >
+          <q-icon
+            :name="outlinedCheckBox"
+            size="16px"
+          />
+          <div
+            class="text"
+          >
+            {{ todoStatusText }}
+          </div>
+        </div>
+        <q-space />
+        <!-- 實作卡片成員頭像 -->
+        <!-- <q-avatar
+          size="32px"
+        >
+          <img
+            src="/images/user.jpeg"
+            style="object-fit: cover"
+          >
+        </q-avatar> -->
+      </div>
       <div class="edit-btn absolute-top-right flex flex-center">
         <q-icon name="mode_edit_outline" />
       </div>
@@ -36,6 +71,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 
 export default {
   name: 'DashCard',
@@ -56,10 +92,24 @@ export default {
       offsetY: 0,
       originX: 0,
       originY: 0,
+      outlinedCheckBox,
     };
   },
   computed: {
     ...mapState('dashboard', ['draggingItem']),
+    todoStatusText() {
+      let totalCount = 0;
+      let finishedCount = 0;
+      this.card.todos.forEach((todo) => {
+        todo.items.forEach((item) => {
+          totalCount += 1;
+          if (item.isFinish) {
+            finishedCount += 1;
+          }
+        });
+      });
+      return `${finishedCount}/${totalCount}`;
+    },
   },
   methods: {
     ...mapMutations('dashboard', [
@@ -259,6 +309,24 @@ export default {
   z-index: 10000;
   transform: rotate(6deg);
   cursor: grabbing;
+}
+
+.card-detail {
+  font-weight: 500;
+  color: #5e6c84;
+
+  .card-detail-item {
+    min-width: 24px;
+    height: 24px;
+    margin: 0 4px 4px 0;
+
+    .text{
+      font-size: 12px;
+      padding: 0 4px 0 2px;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+  }
 }
 
 </style>
