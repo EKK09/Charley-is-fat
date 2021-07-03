@@ -58,6 +58,7 @@
 <script>
 import BaseMenu from 'src/components/menu/BaseMenu.vue';
 import { mapMutations, mapState } from 'vuex';
+import { TAG_COLOR } from 'src/common/constants';
 
 export default {
   name: 'AddTagMenu',
@@ -66,7 +67,7 @@ export default {
   data() {
     return {
       tagLabel: '',
-      tagOptions: ['61bd4f', 'f2d600', 'ff9f1a', 'eb5a46', 'c377e0', '0079bf', '00c2e0', 'ff78cb', '97a0af'],
+      tagOptions: TAG_COLOR,
     };
   },
   computed: {

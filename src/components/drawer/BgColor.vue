@@ -17,23 +17,14 @@
 </template>
 <script>
 import { mapMutations } from 'vuex';
+import { BG_COLOR } from 'src/common/constants';
 
 export default {
   name: 'BgColor',
   ...mapMutations('dashboard', ['setDrawerTab']),
   data() {
     return {
-      colorCodes: [
-        '0279c0',
-        'd29034',
-        '529838',
-        'af4632',
-        '89609e',
-        'cd5a90',
-        '4abf6b',
-        '07adcc',
-        '848d91',
-      ],
+      colorCodes: BG_COLOR,
     };
   },
   methods: {
