@@ -48,6 +48,20 @@ const fooCard = {
   columnIndex: 0,
   itemIndex: 0,
   hasMember: false,
+  actions: [
+    {
+      text: '已完成這張卡片的「aaaa」',
+      time: 1625286990318,
+    },
+    {
+      text: '已完成這張卡片的「aaaa」',
+      time: 1625203221044,
+    },
+    {
+      text: '已完成這張卡片的「aaaa」',
+      time: 1593667221044,
+    },
+  ],
 };
 const barCard = {
   id: '2',
@@ -58,6 +72,7 @@ const barCard = {
   columnIndex: 0,
   itemIndex: 1,
   hasMember: false,
+  actions: [],
 };
 const bazCard = {
   id: '3',
@@ -68,6 +83,7 @@ const bazCard = {
   columnIndex: 1,
   itemIndex: 0,
   hasMember: false,
+  actions: [],
 };
 const qarCard = {
   id: '4',
@@ -78,6 +94,7 @@ const qarCard = {
   columnIndex: 1,
   itemIndex: 1,
   hasMember: false,
+  actions: [],
 };
 
 const fooColumn = {
