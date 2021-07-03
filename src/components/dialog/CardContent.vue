@@ -156,6 +156,56 @@
         </div>
       </div>
       <div
+        class="action relative-position"
+        style="padding-top: 0"
+      >
+        <q-avatar
+          size="32px"
+          class="cursor-pointer absolute-top-left"
+        >
+          <img
+            src="/images/user.jpeg"
+            style="object-fit: cover"
+          >
+        </q-avatar>
+        <div
+          class="comment-wrapper relative-position"
+          :class="isShowCommentBtn? 'show':''"
+        >
+          <textarea
+            ref="comment"
+            rows="1"
+            class="comment-input"
+            placeholder="撰寫評論"
+            @input="handleCommentInput"
+            @focus="toggleShowCommentBtn"
+            @blur="toggleShowCommentBtn"
+          />
+          <div
+            class="comment-btn-wrapper row items-center absolute-bottom-left full-width"
+          >
+            <div
+              class="save-btn q-py-sm q-px-md square-border text-weight-medium"
+            >
+              儲存
+            </div>
+            <q-space />
+
+            <div
+              v-for="(icon, index) in commentBtnIcons"
+              :key="index"
+              class="flex flex-center comment-btn"
+            >
+              <q-icon
+                size="16px"
+                :name="icon"
+                style="color: inherit"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
         v-show="isShowActions"
         class="action-list-wrapper"
       >
@@ -205,6 +255,13 @@ export default {
       descriptInputHideTimer: null,
       getFriendilyTimeString,
       isShowActions: true,
+      isShowCommentBtn: false,
+      commentBtnIcons: [
+        'attachment',
+        'alternate_email',
+        'sentiment_satisfied_alt',
+        'laptop',
+      ],
     };
   },
   computed: {
@@ -251,6 +308,19 @@ export default {
     },
     toggleActionList() {
       this.isShowActions = !this.isShowActions;
+    },
+    toggleShowCommentBtn() {
+      this.isShowCommentBtn = !this.isShowCommentBtn;
+    },
+    handleCommentInput() {
+      setTimeout(() => {
+        this.resetCommentInputheight();
+      }, 0);
+    },
+    resetCommentInputheight() {
+      const { comment } = this.$refs;
+      comment.style.height = 'auto';
+      comment.style.height = `${comment.scrollHeight}px`;
     },
   },
 };
@@ -431,6 +501,69 @@ export default {
     &:hover {
       color: #172b4d;
       text-decoration: underline;
+    }
+  }
+}
+
+.comment-wrapper {
+  padding: 8px 12px;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  transition-property: padding-bottom;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  font-weight: 400;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+  &.show {
+    padding-bottom: 56px;
+    box-shadow: 0 4px 8px -2px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+
+    .comment-btn-wrapper {
+      display: flex;
+    }
+  }
+  .comment-input {
+    height: 20px;
+    color: #172b4d;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin: 0;
+    min-height: 20px;
+    padding: 0;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+
+    &::placeholder{
+        color: #172b4d;
+    }
+  }
+
+  .comment-btn-wrapper {
+    display: none;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    .save-btn {
+      background-color: rgba(9,30,66,.04);
+      color: #a5adba;
+      cursor: not-allowed;
+    }
+    .comment-btn {
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+      margin-left: 4px;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(9,30,66,.08);
+        color: #091e42;
+      }
     }
   }
 }
