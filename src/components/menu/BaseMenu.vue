@@ -2,6 +2,7 @@
   <q-menu
     ref="menu"
     max-width="304px"
+    max-height="100vh"
     :offset="[0,8]"
     transition-show="none"
     transition-hide="none"
