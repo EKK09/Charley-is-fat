@@ -75,12 +75,12 @@
               style="padding: 0 10px 2px;"
               class="board-content column no-wrap"
             >
-              <q-item-label
-                style="color:#172B4D; height: 20px"
-                class="text-bold ellipsis row items-center"
+              <div
+                style="color:#172B4D; height: 20px; line-height:100%: vertical-align: middle;"
+                class="text-bold ellipsis"
               >
-                減肥計劃
-              </q-item-label>
+                {{ dashboardTitle }}
+              </div>
               <q-item-label
                 class="fz-sm"
                 style="color: rgba(0, 0, 0, 0.4); margin-top: unset;height: 15px"
@@ -89,8 +89,7 @@
               </q-item-label>
             </q-item-section>
             <div
-              class="board-star-wrapper absolute-right overflow-hidden row justify-center
-               items-center"
+              class="board-star-wrapper absolute-right overflow-hidden flex flex-center"
             >
               <q-icon
                 v-close-popup
@@ -151,6 +150,8 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'SearchBar',
   data() {
@@ -158,6 +159,9 @@ export default {
       isShowInput: false,
       isShowMenu: false,
     };
+  },
+  computed: {
+    ...mapState('dashboard', ['dashboardTitle']),
   },
   methods: {
     handleShowInput() {

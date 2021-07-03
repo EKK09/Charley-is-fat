@@ -401,3 +401,6 @@ export function removeEmptyCard(state) {
     console.log(column.cards.map((item) => (item ? item.title : undefined)));
   });
 }
+export function setDashboardTitle(state, title) {
+  state.dashboardTitle = title;
+}

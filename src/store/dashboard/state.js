@@ -121,6 +121,7 @@ const state = () => ({
 
   isShowDialog: false,
   dialogCard: null,
+  dashboardTitle: '減肥計劃',
 
 });
 export default state;

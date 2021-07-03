@@ -20,16 +20,15 @@
           />
         </div>
       </DashboardHeaderButton>
-      <DashboardHeaderButton
-        padding="0px"
+      <div
+        ref="titleInput"
+        contenteditable="true"
+        class="title-input row items-center cursor-pointer"
+        @blur="setTitle"
+        @focus="handleFocus"
       >
-        <div
-          class="row items-center fz-xl q-px-md"
-          style="line-height: 32px;font-weight: 700;"
-        >
-          減肥計劃
-        </div>
-      </DashboardHeaderButton>
+        {{ dashboardTitle }}
+      </div>
       <DashboardHeaderButton
         padding="0px"
       >
@@ -150,13 +149,35 @@
 
 <script>
 import DashboardHeaderButton from 'src/components/dashboard/DashboardHeaderButton.vue';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'DashboardHeader',
   components: { DashboardHeaderButton },
+  data() {
+    return {
+      isShowTitleInput: false,
+      title: '減肥計劃',
+    };
+  },
+  computed: {
+    ...mapState('dashboard', ['dashboardTitle']),
+  },
   methods: {
-    ...mapMutations('dashboard', ['showDrawer']),
+    ...mapMutations('dashboard', ['showDrawer', 'setDashboardTitle']),
+
+    setTitle() {
+      const title = this.$refs.titleInput.textContent.trim();
+      this.setDashboardTitle(title);
+    },
+    handleFocus() {
+      const { titleInput } = this.$refs;
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(titleInput);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    },
   },
 };
 </script>
@@ -165,8 +186,30 @@ export default {
   min-height: 52px;
   padding: 8px 8px 4px 8px;
 }
-.left {
-  // flex: 1;
+.title-input {
+  color: white;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 0;
+  outline: none;
+  border-radius: 3px;
+  font-weight: 800;
+  font-size: 18px;
+  height: 32px;
+  padding: 0 12px;
+  overflow: hidden;
+  transition-property: background-color,border-color,box-shadow,width;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  &:hover {
+     background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus {
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px #0079bf;
+    color: #172b4d;
+  }
 }
 .right {
   flex: 1;
