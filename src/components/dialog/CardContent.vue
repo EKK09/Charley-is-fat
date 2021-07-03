@@ -146,9 +146,42 @@
         <div class="header-label">
           活動
         </div>
+        <q-space />
+        <div
+          v-show="dialogCard.actions.length > 0"
+          class="helper"
+          @click="toggleActionList"
+        >
+          {{ isShowActions?'隱藏詳情': '顯示詳情' }}
+        </div>
       </div>
-      <div class="content-wrapper">
-        test
+      <div
+        v-show="isShowActions"
+        class="action-list-wrapper"
+      >
+        <div
+          v-for="(action, index) in dialogCard.actions"
+          :key="index"
+          class="action relative-position"
+        >
+          <q-avatar
+            size="32px"
+            class="cursor-pointer absolute-top-left"
+            style="margin-top:8px"
+          >
+            <img
+              src="/images/user.jpeg"
+              style="object-fit: cover"
+            >
+          </q-avatar>
+          <div class="text">
+            <span class="name cursor-pointer">查理布朗</span>
+            {{ action.text }}
+          </div>
+          <div class="time">
+            {{ getFriendilyTimeString(action.time) }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -159,6 +192,7 @@ import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
 import CardTodoList from 'src/components/dialog/CardTodoList.vue';
 import AddTagMenu from 'src/components/menu/AddTagMenu.vue';
 import AddMemberMenu from 'src/components/menu/AddMemberMenu.vue';
+import { getFriendilyTimeString } from 'src/common/datetimeHelper';
 
 export default {
   name: 'CardContent',
@@ -169,6 +203,8 @@ export default {
       description: '',
       isShowDescriptInput: false,
       descriptInputHideTimer: null,
+      getFriendilyTimeString,
+      isShowActions: true,
     };
   },
   computed: {
@@ -212,6 +248,9 @@ export default {
         this.resetInputheight();
         this.$refs.textarea.focus();
       }, 0);
+    },
+    toggleActionList() {
+      this.isShowActions = !this.isShowActions;
     },
   },
 };
@@ -324,6 +363,10 @@ export default {
   &:hover {
     background-color: rgba(9,30,66,.08);
   }
+  &:active {
+    background-color: #e4f0f6;
+    color: #0079bf;
+  }
 }
 .label {
   font-weight: 700;
@@ -363,6 +406,32 @@ export default {
 
   &:hover {
     background-color: rgba(9,30,66,.08);
+  }
+}
+
+.action {
+  padding: 8px 0 8px 40px;
+  position: relative;
+  min-height: 32px;
+  color: #172b4d;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  word-wrap: break-word;
+  .name {
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  .time {
+    color: #5e6c84;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      color: #172b4d;
+      text-decoration: underline;
+    }
   }
 }
 </style>
