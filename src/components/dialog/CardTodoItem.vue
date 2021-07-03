@@ -153,6 +153,7 @@ export default {
       'setDraggingItem',
       'switchDraggingTodoItem',
       'removeEmptyTodoItem',
+      'toggleTodoItemStatus',
     ]),
 
     showInput() {
@@ -183,11 +184,10 @@ export default {
       this.updateItem(item);
     },
     toggleItemIsFinish() {
-      const item = {
-        ...this.todoItem,
-        isFinish: !this.todoItem.isFinish,
-      };
-      this.updateItem(item);
+      this.toggleTodoItemStatus({
+        todoIndex: this.todoItem.todoIndex,
+        itemIndex: this.todoItem.itemIndex,
+      });
     },
     handleTextareaInput() {
       setTimeout(() => {

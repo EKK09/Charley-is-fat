@@ -84,6 +84,14 @@ export function addColumnCard(state, { index, title }) {
     tags: [],
     columnIndex: index,
     itemIndex: state.columns[index].cards.length,
+    todos: [],
+    actions: [
+      {
+        text: `已將這張卡片新增到「${state.columns[index].title}」`,
+        time: Date.now(),
+      },
+    ],
+    hasMember: false,
   };
   state.columns[index].cards.push(newCard);
 }
@@ -119,6 +127,10 @@ export function addDialogCardTodo(state, title) {
     items: [],
   };
   state.dialogCard.todos.push(newTodo);
+  state.dialogCard.actions.unshift({
+    text: `已將「${title}」這張卡片新增到`,
+    time: Date.now(),
+  });
 }
 export function addDialogCardTag(state, tag) {
   if (!state.dialogCard) {
@@ -152,6 +164,22 @@ export function updateTodoItem(state, { item, todoIndex, itemIndex }) {
 
   state.dialogCard.todos[todoIndex].items.splice(itemIndex, 1, item);
 }
+export function toggleTodoItemStatus(state, { todoIndex, itemIndex }) {
+  if (!state.dialogCard) {
+    return;
+  }
+  const newItem = {
+    ...state.dialogCard.todos[todoIndex].items[itemIndex],
+    isFinish: !state.dialogCard.todos[todoIndex].items[itemIndex].isFinish,
+  };
+  state.dialogCard.todos[todoIndex].items.splice(itemIndex, 1, newItem);
+  const actionText = newItem.isFinish ? `已完成這張卡片的「${newItem.label}」` : `已將這張卡片的「${newItem.label}」標示為未完成`;
+  state.dialogCard.actions.unshift({
+    text: actionText,
+    time: Date.now(),
+  });
+}
+
 export function addTodoItem(state, { label, todoIndex }) {
   if (!state.dialogCard) {
     return;
