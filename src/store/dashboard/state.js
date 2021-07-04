@@ -1,7 +1,5 @@
-import fooColumns from 'src/common/fooData';
-
 const state = () => ({
-  columns: fooColumns,
+  columns: [],
   draggingItem: null,
   draggingList: null,
   isShowDrawer: false,

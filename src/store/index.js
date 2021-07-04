@@ -14,7 +14,7 @@ Vue.use(Vuex);
  * with the Store instance.
  */
 
-export default function (/* { ssrContext } */) {
+export default async function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       dashboard,
@@ -24,6 +24,6 @@ export default function (/* { ssrContext } */) {
     // for dev mode only
     strict: process.env.DEBUGGING,
   });
-  Store.dispatch('dashboard/getDashboardAction');
+  await Store.dispatch('dashboard/getDashboardAction');
   return Store;
 }

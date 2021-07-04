@@ -10,7 +10,7 @@ export function setDashboardAction({ state }) {
     // TODO: 錯誤處理
   }
 }
-export function getDashboardAction({ commit }) {
+export async function getDashboardAction({ commit }) {
   try {
     const bgColorCode = LocalStorage.getItem('bg');
     if (bgColorCode) {
@@ -21,8 +21,12 @@ export function getDashboardAction({ commit }) {
       commit('setDashboardTitle', dashboardTitle);
     }
 
-    const columns = LocalStorage.getItem('c');
-    if (columns) {
+    const localColumns = LocalStorage.getItem('c');
+    if (localColumns) {
+      commit('setColumns', localColumns);
+    } else {
+      const response = await fetch('/json/data.json');
+      const columns = await response.json();
       commit('setColumns', columns);
     }
   } catch (error) {
