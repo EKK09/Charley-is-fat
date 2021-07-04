@@ -21,10 +21,20 @@
         </div>
       </DashboardHeaderButton>
       <div
+        v-show="!isShowTitleInput"
+        ref="title"
+        class="title-input row items-center cursor-pointer"
+        @click="showTitleInput"
+      >
+        {{ dashboardTitle }}
+      </div>
+      <div
+        v-show="isShowTitleInput"
         ref="titleInput"
         contenteditable="true"
+        spellcheck="false"
         class="title-input row items-center cursor-pointer"
-        @blur="setTitle"
+        @blur="hideTitleInput"
         @focus="handleFocus"
       >
         {{ dashboardTitle }}
@@ -166,15 +176,25 @@ export default {
   methods: {
     ...mapMutations('dashboard', ['showDrawer', 'setDashboardTitle']),
 
-    setTitle() {
+    hideTitleInput() {
       const title = this.$refs.titleInput.textContent.trim();
-      this.setDashboardTitle(title);
+      if (title) {
+        this.setDashboardTitle(title);
+      }
+      this.isShowTitleInput = false;
     },
-    handleFocus() {
+    showTitleInput() {
+      this.isShowTitleInput = true;
       const { titleInput } = this.$refs;
+      titleInput.innerHTML = this.dashboardTitle;
+      setTimeout(() => {
+        titleInput.focus();
+      }, 50);
+    },
+    handleFocus(event) {
       const selection = window.getSelection();
       const range = document.createRange();
-      range.selectNodeContents(titleInput);
+      range.selectNodeContents(event.target);
       selection.removeAllRanges();
       selection.addRange(range);
     },
@@ -194,6 +214,7 @@ export default {
   outline: none;
   border-radius: 3px;
   font-weight: 800;
+  line-height: 20px;
   font-size: 18px;
   height: 32px;
   padding: 0 12px;
