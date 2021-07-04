@@ -8,9 +8,13 @@
     transition-hide="none"
   >
     <div
-      class="row justify-center dialog-card-wrapper relative-position"
+      class="row justify-center relative-position"
+      @click="handleBackDropClick"
     >
-      <div class="dialog-card">
+      <div
+        ref="dialogCard"
+        class="dialog-card"
+      >
         <div
           class="close-btn flex flex-center absolute-top-right"
           @click="hideDialog"
@@ -24,10 +28,6 @@
         <CardContent class="non-selectable" />
         <CardSide class="non-selectable" />
       </div>
-      <div
-        class="absolute fit back-drop"
-        @click="hideDialog"
-      />
     </div>
   </q-dialog>
 </template>
@@ -72,13 +72,16 @@ export default {
       this.setDialogCard(null);
       this.$router.push({ params: { cardId: undefined } });
     },
+    handleBackDropClick(event) {
+      const hasClickCard = event.path.includes(this.$refs.dialogCard);
+      if (!hasClickCard) {
+        this.hideDialog();
+      }
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-.dialog-card-wrapper {
-
-}
 .dialog-card {
     background-color: #f4f5f7;
     border-radius: 2px;
@@ -88,9 +91,6 @@ export default {
     width: 768px;
     color: #172b4d;
     z-index: 4;
-}
-.back-drop {
-  z-index: 2;
 }
 .close-btn {
   color: #42526e;
