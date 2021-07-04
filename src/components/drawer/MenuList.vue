@@ -227,11 +227,12 @@
       活動
     </MenuItem>
     <div class="activity-wrapper">
-      <Activity />
-      <Activity />
-      <Activity />
-      <Activity />
-      <Activity />
+      <Activity
+        v-for="(item,index) in activitys"
+        :key="index"
+        :content="item.content"
+        :time="item.time"
+      />
     </div>
   </div>
 </template>
@@ -246,7 +247,23 @@ export default {
   name: 'MenuList',
   components: { MenuItem, Activity },
   data() {
-    return { outlinedVerifiedUser };
+    return {
+      outlinedVerifiedUser,
+      activitys: [
+        {
+          content: '覺得怎麼還沒瘦下來',
+          time: 1625327539181,
+        },
+        {
+          content: '正在與零食對抗中',
+          time: 1625241139181,
+        },
+        {
+          content: '下定決心要減肥了',
+          time: 1625154739181,
+        },
+      ],
+    };
   },
   computed: {
     ...mapState('dashboard', ['bgColorCode']),

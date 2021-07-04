@@ -11,22 +11,36 @@
     </q-avatar>
     <div class="col content-wrapper">
       <div class="content">
-        <span class="name">查理布朗</span> 已變更這個看板的背景
+        <span class="name">查理布朗</span>{{ content }}
       </div>
 
       <div class="time text-weight-medium">
-        昨天晚上10點59分
+        {{ getFriendilyTimeString(time) }}
       </div>
     </div>
   </div>
 </template>
 <script>
 import { USER_AVATAR_PATH } from 'src/common/constants';
+import { getFriendilyTimeString } from 'src/common/datetimeHelper';
 
 export default {
   name: 'Activity',
+  props: {
+    content: {
+      type: String,
+      required: true,
+    },
+    time: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
-    return { USER_AVATAR_PATH };
+    return {
+      USER_AVATAR_PATH,
+      getFriendilyTimeString,
+    };
   },
 };
 </script>
@@ -48,6 +62,7 @@ export default {
 .name {
   font-weight: 700;
   word-wrap: break-word;
+  margin-right: 8px;
 }
 
 .time {
