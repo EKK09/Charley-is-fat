@@ -3,6 +3,7 @@
     v-model="isShowDrawer"
     side="right"
     :width="339"
+    behavior="desktop"
   >
     <div
       class="wrapper fit q-pl-md q-pr-sm column"
