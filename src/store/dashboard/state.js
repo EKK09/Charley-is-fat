@@ -111,7 +111,6 @@ const barColumn = {
 };
 
 const state = () => ({
-  cards: [fooCard, barCard, bazCard, qarCard],
   columns: [fooColumn, barColumn],
   draggingItem: null,
   draggingList: null,
