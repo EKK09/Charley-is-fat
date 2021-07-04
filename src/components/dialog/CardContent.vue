@@ -1,6 +1,9 @@
 <template>
   <div class="content">
-    <div class="module">
+    <div
+      v-show="dialogCard.tags.length > 0 || dialogCard.hasMember"
+      class="module"
+    >
       <div
         class="content-wrapper row"
         style="margin-top: 8px"
@@ -34,7 +37,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div v-show="dialogCard.tags.length > 0">
           <div class="label">
             標籤
           </div>
