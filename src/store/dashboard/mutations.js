@@ -404,3 +404,16 @@ export function removeEmptyCard(state) {
 export function setDashboardTitle(state, title) {
   state.dashboardTitle = title;
 }
+export function showCardDialog(state, cardId) {
+  for (let columnIndex = 0; columnIndex < state.columns.length; columnIndex += 1) {
+    const column = state.columns[columnIndex];
+    for (let cardIndex = 0; cardIndex < column.cards.length; cardIndex += 1) {
+      const card = column.cards[cardIndex];
+      if (card.id === cardId) {
+        state.dialogCard = card;
+        state.isShowDialog = true;
+        return;
+      }
+    }
+  }
+}
