@@ -46,6 +46,12 @@ export function addColumn(state, title) {
 }
 export function removeColumn(state, index) {
   state.columns.splice(index, 1);
+  state.columns.forEach((column, columnIndex) => {
+    column.columnIndex = columnIndex;
+    column.cards.forEach((card) => {
+      card.columnIndex = columnIndex;
+    });
+  });
 }
 
 export function setColumnTitle(state, { index, title }) {
