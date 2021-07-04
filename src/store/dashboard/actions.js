@@ -22,7 +22,7 @@ export async function getDashboardAction({ commit }) {
     }
 
     const localColumns = LocalStorage.getItem('c');
-    if (localColumns) {
+    if (localColumns && localColumns.length > 0) {
       commit('setColumns', localColumns);
     } else {
       const response = await fetch(process.env.DATA_URL);
