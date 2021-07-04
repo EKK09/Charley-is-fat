@@ -5,7 +5,7 @@
       class="avatar"
     >
       <img
-        src="/images/user.jpeg"
+        :src="USER_AVATAR_PATH"
         style="object-fit: cover"
       >
     </q-avatar>
@@ -21,9 +21,13 @@
   </div>
 </template>
 <script>
+import { USER_AVATAR_PATH } from 'src/common/constants';
+
 export default {
   name: 'Activity',
-
+  data() {
+    return { USER_AVATAR_PATH };
+  },
 };
 </script>
 <style lang="scss" scoped>

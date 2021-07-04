@@ -25,7 +25,7 @@ export async function getDashboardAction({ commit }) {
     if (localColumns) {
       commit('setColumns', localColumns);
     } else {
-      const response = await fetch('/json/data.json');
+      const response = await fetch(process.env.DATA_URL);
       const columns = await response.json();
       commit('setColumns', columns);
     }

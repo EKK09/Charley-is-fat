@@ -27,7 +27,7 @@
           size="32px"
         >
           <img
-            src="/images/user.jpeg"
+            :src="USER_AVATAR_PATH"
             style="object-fit: cover"
           >
         </q-avatar>
@@ -40,12 +40,14 @@
 import ButtonBase from 'src/components/button/ButtonBase.vue';
 import AppMenuButton from 'src/components/button/AppMenuButton.vue';
 import SearchBar from 'src/components/SearchBar.vue';
+import { USER_AVATAR_PATH } from 'src/common/constants';
 
 export default {
   name: 'Header',
   components: { ButtonBase, SearchBar, AppMenuButton },
   data() {
     return {
+      USER_AVATAR_PATH,
     };
   },
 };
@@ -66,7 +68,7 @@ export default {
 }
 #logo::after {
   content: '';
-  background-image: url(/images/logo.gif);
+  background-image: url(#{$BASE_PATH}/images/logo.gif);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

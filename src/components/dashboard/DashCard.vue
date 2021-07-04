@@ -53,7 +53,7 @@
           size="32px"
         >
           <img
-            src="/images/user.jpeg"
+            :src="USER_AVATAR_PATH"
             style="object-fit: cover"
           >
         </q-avatar>
@@ -72,6 +72,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import { outlinedCheckBox } from '@quasar/extras/material-icons-outlined';
+import { USER_AVATAR_PATH } from 'src/common/constants';
 
 export default {
   name: 'DashCard',
@@ -93,6 +94,7 @@ export default {
       originX: 0,
       originY: 0,
       outlinedCheckBox,
+      USER_AVATAR_PATH,
     };
   },
   computed: {

@@ -22,7 +22,7 @@
           size="32px"
         >
           <img
-            src="/images/user.jpeg"
+            :src="USER_AVATAR_PATH"
             style="object-fit: cover"
           >
         </q-avatar>
@@ -56,6 +56,7 @@
 <script>
 import BaseMenu from 'src/components/menu/BaseMenu.vue';
 import { mapMutations, mapState } from 'vuex';
+import { USER_AVATAR_PATH } from 'src/common/constants';
 
 export default {
   name: 'AddMemberMenu',
@@ -64,6 +65,7 @@ export default {
   data() {
     return {
       name: '',
+      USER_AVATAR_PATH,
     };
   },
   computed: {

@@ -108,7 +108,7 @@
           size="28px"
         >
           <img
-            src="/images/user.jpeg"
+            :src="USER_AVATAR_PATH"
             style="object-fit: cover"
           >
           <q-icon
@@ -160,6 +160,7 @@
 <script>
 import DashboardHeaderButton from 'src/components/dashboard/DashboardHeaderButton.vue';
 import { mapMutations, mapState } from 'vuex';
+import { USER_AVATAR_PATH } from 'src/common/constants';
 
 export default {
   name: 'DashboardHeader',
@@ -168,6 +169,7 @@ export default {
     return {
       isShowTitleInput: false,
       title: '減肥計劃',
+      USER_AVATAR_PATH,
     };
   },
   computed: {

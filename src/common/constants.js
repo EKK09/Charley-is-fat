@@ -21,3 +21,5 @@ export const BG_COLOR = [
   '07adcc',
   '848d91',
 ];
+
+export const USER_AVATAR_PATH = `${process.env.BASE_PATH}/images/user.jpeg`;

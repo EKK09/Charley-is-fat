@@ -21,7 +21,7 @@
               class="q-mr-sm cursor-pointer"
             >
               <img
-                src="/images/user.jpeg"
+                :src="USER_AVATAR_PATH"
                 style="object-fit: cover"
               >
             </q-avatar>
@@ -167,7 +167,7 @@
           class="cursor-pointer absolute-top-left"
         >
           <img
-            src="/images/user.jpeg"
+            :src="USER_AVATAR_PATH"
             style="object-fit: cover"
           >
         </q-avatar>
@@ -223,7 +223,7 @@
             style="margin-top:8px"
           >
             <img
-              src="/images/user.jpeg"
+              :src="USER_AVATAR_PATH"
               style="object-fit: cover"
             >
           </q-avatar>
@@ -246,12 +246,14 @@ import CardTodoList from 'src/components/dialog/CardTodoList.vue';
 import AddTagMenu from 'src/components/menu/AddTagMenu.vue';
 import AddMemberMenu from 'src/components/menu/AddMemberMenu.vue';
 import { getFriendilyTimeString } from 'src/common/datetimeHelper';
+import { USER_AVATAR_PATH } from 'src/common/constants';
 
 export default {
   name: 'CardContent',
   components: { CardTodoList, AddTagMenu, AddMemberMenu },
   data() {
     return {
+      USER_AVATAR_PATH,
       outlinedCheckBox,
       description: '',
       isShowDescriptInput: false,
