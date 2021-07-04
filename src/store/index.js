@@ -24,6 +24,6 @@ export default function (/* { ssrContext } */) {
     // for dev mode only
     strict: process.env.DEBUGGING,
   });
-
+  Store.dispatch('dashboard/getDashboardAction');
   return Store;
 }

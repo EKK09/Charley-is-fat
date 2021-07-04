@@ -22,5 +22,17 @@ export default {
       this.$store.commit('dashboard/showCardDialog', cardId);
     }
   },
+  created() {
+    window.addEventListener('beforeunload', (e) => {
+      this.setDashBoard();
+      e.preventDefault();
+      delete e.returnValue;
+    });
+  },
+  methods: {
+    setDashBoard() {
+      this.$store.dispatch('dashboard/setDashboardAction');
+    },
+  },
 };
 </script>
