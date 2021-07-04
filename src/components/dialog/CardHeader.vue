@@ -21,6 +21,8 @@
         class="editable title-input cursor-pointer"
         @input="handleTextareaInput"
         @keydown.enter="handleEnter"
+        @focus="handleFocus"
+        @blur="handleBlur"
       />
     </div>
     <div style="margin: 2px 8px 5px 2px;">
@@ -37,6 +39,7 @@ export default {
   data() {
     return {
       outlinedTopic,
+      tempTitle: '',
     };
   },
   computed: {
@@ -76,6 +79,14 @@ export default {
       }
       event.preventDefault();
       this.$refs.textarea.blur();
+    },
+    handleFocus() {
+      this.tempTitle = this.dialogCard.title;
+    },
+    handleBlur() {
+      if (!this.dialogCard.title) {
+        this.setDialogCardTitle(this.tempTitle);
+      }
     },
   },
 };
