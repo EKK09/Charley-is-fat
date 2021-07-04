@@ -122,6 +122,12 @@ export default {
 
     handleMouseUp() {
       this.isMousePressing = false;
+      this.showCardDialog();
+    },
+    async showCardDialog() {
+      // this.setDialogCard(this.card);
+      // this.setIsShowDialog(true);
+      await this.$router.push({ params: { cardId: this.card.id } });
       this.setDialogCard(this.card);
       this.setIsShowDialog(true);
     },

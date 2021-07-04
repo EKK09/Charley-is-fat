@@ -16,5 +16,11 @@ import CardDialog from 'src/components/dialog/CardDialog.vue';
 export default {
   name: 'Dashboard',
   components: { DashboardHeader, DashBoardBody, CardDialog },
+  mounted() {
+    const { cardId } = this.$route.params;
+    if (cardId) {
+      this.$store.commit('dashboard/showCardDialog', cardId);
+    }
+  },
 };
 </script>

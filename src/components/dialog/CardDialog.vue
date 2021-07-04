@@ -55,7 +55,7 @@ export default {
       set(val) {
         this.setIsShowDialog(val);
         if (!val) {
-          this.setDialogCard(null);
+          this.handleDialogClose();
         }
       },
     },
@@ -66,6 +66,10 @@ export default {
     hideDialog() {
       this.$refs.dialog.hide();
       this.setDialogCard(null);
+    },
+    handleDialogClose() {
+      this.setDialogCard(null);
+      this.$router.push({ params: { cardId: undefined } });
     },
   },
 };
