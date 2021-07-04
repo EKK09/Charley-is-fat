@@ -34,5 +34,16 @@ export default {
       this.$store.dispatch('dashboard/setDashboardAction');
     },
   },
+  meta() {
+    let title = this.$store.state.dashboard.dashboardTitle;
+    if (this.$route.params.cardId && this.$store.state.dashboard.dialogCard) {
+      title = `${title}的${this.$store.state.dashboard.dialogCard.title}`;
+    } else {
+      title += ' | trello';
+    }
+    return {
+      title,
+    };
+  },
 };
 </script>

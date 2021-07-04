@@ -99,7 +99,7 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['LocalStorage'],
+      plugins: ['LocalStorage', 'Meta'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -116,9 +116,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'trello',
+        name: 'charley\'s trello',
         short_name: 'trello',
-        description: 'trello',
+        description: 'charley\'s trello',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
