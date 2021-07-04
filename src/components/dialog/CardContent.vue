@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content non-selectable">
     <div
       v-show="dialogCard.tags.length > 0 || dialogCard.hasMember"
       class="module"

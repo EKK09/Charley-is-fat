@@ -2,6 +2,7 @@
   <q-dialog
     ref="dialog"
     v-model="isShow"
+    class="non-selectable"
     maximized
     transition-show="none"
     transition-hide="none"
@@ -19,9 +20,9 @@
             size="20px"
           />
         </div>
-        <CardHeader />
-        <CardContent />
-        <CardSide />
+        <CardHeader class="non-selectable" />
+        <CardContent class="non-selectable" />
+        <CardSide class="non-selectable" />
       </div>
       <div
         class="absolute fit back-drop"

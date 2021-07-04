@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header non-selectable">
     <span
       class="title-icon flex flex-center"
       style="top: 4px"
