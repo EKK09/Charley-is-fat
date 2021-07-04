@@ -68,7 +68,12 @@ export default {
 }
 #logo::after {
   content: '';
-  background-image: url(#{$BASE_PATH}/images/logo.gif);
+
+  @if variable-exists(BASE_PATH) {
+    background-image: url(#{$BASE_PATH}/images/logo.gif);
+  }@else {
+      background-image: url(/images/logo.gif);
+  }
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
