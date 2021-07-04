@@ -137,7 +137,6 @@
   </div>
 </template>
 <script>
-import { mapMutations, mapState, mapGetters } from 'vuex';
 import { outlinedTopic, outlinedCheckBox, outlinedSell } from '@quasar/extras/material-icons-outlined';
 import CardSideButton from 'src/components/dialog/CardSideButton.vue';
 import AddTodoMenu from 'src/components/menu/AddTodoMenu.vue';
@@ -205,18 +204,6 @@ export default {
         },
       ],
     };
-  },
-  computed: {
-    ...mapState('dashboard', ['dialogCardId']),
-    ...mapGetters('dashboard', ['dialogCard']),
-
-  },
-  mounted() {
-
-  },
-  methods: {
-    ...mapMutations('dashboard', ['setIsShowDialog', 'updateCard']),
-
   },
 };
 </script>

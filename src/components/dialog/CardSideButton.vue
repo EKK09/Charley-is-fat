@@ -12,8 +12,6 @@ export default {
 <style lang="scss" scoped>
 .btn-wrapper {
   background-color: rgba(9,30,66,.04);
-  box-shadow: none;
-  border: none;
   border-radius: 3px;
   box-sizing: border-box;
   cursor: pointer;
@@ -24,9 +22,7 @@ export default {
   overflow: hidden;
   padding: 6px 12px 6px 32px;
   position: relative;
-  text-decoration: none;
   text-overflow: ellipsis;
-  -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
   transition-property: background-color,border-color,box-shadow;
@@ -39,8 +35,6 @@ export default {
 
   &:hover{
     background-color: rgba(9,30,66,.08);
-    box-shadow: none;
-    border: none;
   }
 
   &.revert {
@@ -48,8 +42,6 @@ export default {
 
     &:hover{
     background-color: rgba(9,30,66,.04);
-    box-shadow: none;
-    border: none;
   }
   }
 }
