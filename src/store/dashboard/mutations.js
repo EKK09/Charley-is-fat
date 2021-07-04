@@ -404,6 +404,9 @@ export function removeEmptyCard(state) {
 export function setDashboardTitle(state, title) {
   state.dashboardTitle = title;
 }
+export function setColumns(state, columns) {
+  state.columns = columns;
+}
 export function showCardDialog(state, cardId) {
   for (let columnIndex = 0; columnIndex < state.columns.length; columnIndex += 1) {
     const column = state.columns[columnIndex];
