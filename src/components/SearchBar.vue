@@ -62,14 +62,14 @@
         </div>
         <div class="row q-mt-sm q-mb-lg">
           <q-item
-            class="col-6 q-pa-none square-border bg-secondary
+            class="col-6 q-pa-none square-border
             board-wrapper relative-position cursor-pointer overflow-hidden"
-            style="height: 36px;min-height: unset"
+            :style="`height: 36px;min-height: unset; background-color: #${bgColorCode}`"
           >
             <q-item-section
               avatar
-              class="q-pa-none full-height board-header bg-secondary"
-              style="min-width: unset;width: 36px"
+              class="q-pa-none full-height board-header"
+              :style="`min-width: unset;width: 36px;background-color: #${bgColorCode}`"
             />
             <q-item-section
               style="padding: 0 10px 2px;"
@@ -161,7 +161,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('dashboard', ['dashboardTitle']),
+    ...mapState('dashboard', ['dashboardTitle', 'bgColorCode']),
   },
   methods: {
     handleShowInput() {
