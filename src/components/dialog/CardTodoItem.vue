@@ -215,6 +215,9 @@ export default {
     },
 
     handleMouseUp() {
+      if (this.isMousePressing === false) {
+        return;
+      }
       console.log('handleMouseUp');
       this.isMousePressing = false;
       this.showInput();

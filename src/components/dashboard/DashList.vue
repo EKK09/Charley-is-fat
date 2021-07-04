@@ -69,8 +69,9 @@ export default {
 
     handleMouseUp(event) {
       console.log('handleMouseUp');
-      // console.log(event);
-      // console.log(this.$refs.header.$refs.textarea);
+      if (this.isMousePressing === false) {
+        return;
+      }
       const hasClickTextarea = event.path.includes(this.$refs.header.$refs.textarea);
       this.isMousePressing = false;
       if (this.$refs.header.isFocus() === false && hasClickTextarea) {
