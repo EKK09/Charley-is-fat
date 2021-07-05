@@ -238,20 +238,9 @@ export default {
     },
 
     handleMouseUp() {
-      console.log('handleMouseUp');
-      // const hasClickTextarea = event.path.includes(this.$refs.header.$refs.textarea);
       this.isMousePressing = false;
-      // if (this.$refs.header.isFocus() === false && hasClickTextarea) {
-      //   this.$refs.header.focus();
-      // }
     },
     handleMouseDown(event) {
-      console.log('handleMouseDown');
-
-      // if (this.$refs.header.isFocus()) {
-      //   console.log('打字中');
-      //   return;
-      // }
       event.stopPropagation();
       event.preventDefault();
       this.isMousePressing = true;
@@ -262,7 +251,6 @@ export default {
       if (!this.isMousePressing || this.isDraggable) {
         return;
       }
-      console.log('handleMouseMove');
       const distance = this.getMoveDistanceY(event.y);
       if (distance > 5) {
         this.setCardDragable();
@@ -271,7 +259,6 @@ export default {
       }
     },
     handleWindowMouseUp() {
-      console.log('handleWindowMouseUp');
       this.cancelCardDragable();
       window.removeEventListener('mousemove', this.handleWindowMouseMove);
       window.removeEventListener('mouseup', this.handleWindowMouseUp);
@@ -325,12 +312,10 @@ export default {
       if (this.draggingList === null && this.draggingItem === null) {
         return;
       }
-      console.log(`todo handleMouseEnter todoIndex:${this.todo.todoIndex}`);
       const { top, height } = this.$refs.wrapper.getBoundingClientRect();
       const displacementY = event.clientY - top;
       const deltaY = Math.abs(displacementY);
       const isInsertBefore = deltaY > height / 2;
-      console.log({ deltaY });
 
       if (this.draggingItem !== null) {
         const target = document.getElementById(this.draggingItem.node);

@@ -64,7 +64,6 @@ export default {
       textarea.style.height = `${textareaHeight}px`;
     },
     handleTextareaFocus() {
-      console.log('handleTextareaFocus');
       this.$refs.textarea.select();
     },
     focus() {

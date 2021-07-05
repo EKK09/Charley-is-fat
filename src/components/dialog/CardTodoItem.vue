@@ -218,13 +218,10 @@ export default {
       if (this.isMousePressing === false) {
         return;
       }
-      console.log('handleMouseUp');
       this.isMousePressing = false;
       this.showInput();
     },
     handleMouseDown(event) {
-      console.log('handleMouseDown');
-      console.log({ todo: this.todoItem.todoIndex, index: this.todoItem.itemIndex });
       event.stopPropagation();
       event.preventDefault();
       this.isMousePressing = true;
@@ -235,7 +232,6 @@ export default {
       if (!this.isMousePressing || this.isDraggable) {
         return;
       }
-      console.log('handleMouseMove');
       const distance = this.getMoveDistanceY(event.y);
       if (distance > 1) {
         this.setCardDragable();
@@ -244,7 +240,6 @@ export default {
       }
     },
     handleWindowMouseUp() {
-      console.log('handleWindowMouseUp');
       this.cancelCardDragable();
       window.removeEventListener('mousemove', this.handleWindowMouseMove);
       window.removeEventListener('mouseup', this.handleWindowMouseUp);
@@ -298,12 +293,10 @@ export default {
       if (this.draggingItem === null) {
         return;
       }
-      console.log(`item handleMouseEnter todoIndex:${this.todoItem.todoIndex} index:${this.todoItem.itemIndex}`);
       const { top, height } = this.$refs.wrapper.getBoundingClientRect();
       const displacementY = event.clientY - top;
       const deltaY = Math.abs(displacementY);
       const isInsertBefore = deltaY > height / 2;
-      console.log({ deltaY, height });
 
       const ref = this.$refs.wrapper;
       const refParent = ref.parentNode;

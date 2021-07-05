@@ -1,11 +1,9 @@
 import { getId } from 'src/common/IdGenerator';
 
 export function setDraggingItem(state, item) {
-  console.log({ item });
   state.draggingItem = item;
 }
 export function setDraggingList(state, list) {
-  console.log({ list });
   state.draggingList = list;
 }
 export function showDrawer(state) {
@@ -57,9 +55,6 @@ export function switchDraggingColumn(state, index) {
   const temp = state.columns[draggingColumnIndex];
   state.columns[draggingColumnIndex] = state.columns[index];
   state.columns[index] = temp;
-  state.columns.forEach((column) => {
-    console.log(column.cards.map((card) => card.title));
-  });
 }
 export function addColumnCard(state, { index, title }) {
   const newCard = {
@@ -219,13 +214,8 @@ export function switchDraggingTodo(state, index) {
   const temp = card.todos[draggingTodoIndex];
   card.todos[draggingTodoIndex] = card.todos[index];
   card.todos[index] = temp;
-  card.todos.forEach((todo) => {
-    console.log(todo.todoIndex);
-    console.log(todo.items.map((item) => item.label));
-  });
 }
 export function switchDraggingTodoItem(state, todoItem) {
-  console.log('switchDraggingTodoItem');
   if (!state.dialogCard) {
     return;
   }
@@ -241,13 +231,8 @@ export function switchDraggingTodoItem(state, todoItem) {
 
   card.todos[dragItem.todoIndex].items[dragItem.itemIndex] = dragItem;
   card.todos[todoItem.todoIndex].items[todoItem.itemIndex] = todoItem;
-
-  card.todos.forEach((todo) => {
-    console.log(todo.items.map((item) => (item ? item.label : undefined)));
-  });
 }
 export function insertDraggingTodoItem(state, { todoIndex, itemIndex }) {
-  console.log('insertDraggingTodoItem');
   if (!state.dialogCard) {
     return;
   }
@@ -281,14 +266,9 @@ export function insertDraggingTodoItem(state, { todoIndex, itemIndex }) {
     }
     return acc + 1;
   }, 0);
-
-  card.todos.forEach((todo) => {
-    console.log(todo.items.map((item) => (item ? item.label : undefined)));
-  });
 }
 
 export function removeEmptyTodoItem(state) {
-  console.log('removeEmptyTodoItem');
   if (!state.dialogCard) {
     return;
   }
@@ -302,12 +282,8 @@ export function removeEmptyTodoItem(state) {
       itemIndex: index,
     })),
   }));
-  card.todos.forEach((todo) => {
-    console.log(todo.items.map((item) => (item ? item.label : undefined)));
-  });
 }
 export function switchDraggingCardItem(state, cardItem) {
-  console.log('switchDraggingCardItem');
   const dragItem = state.draggingItem.item;
   const tempItem = { ...dragItem };
 
@@ -319,13 +295,8 @@ export function switchDraggingCardItem(state, cardItem) {
 
   columns[dragItem.columnIndex].cards[dragItem.itemIndex] = dragItem;
   columns[cardItem.columnIndex].cards[cardItem.itemIndex] = cardItem;
-
-  columns.forEach((column) => {
-    console.log(column.cards.map((item) => (item ? item.title : undefined)));
-  });
 }
 export function insertDraggingCardItem(state, { columnIndex, itemIndex }) {
-  console.log('insertDraggingCardItem');
   const dragItem = state.draggingItem.item;
   state.columns[dragItem.columnIndex].cards[dragItem.itemIndex] = undefined;
 
@@ -357,14 +328,9 @@ export function insertDraggingCardItem(state, { columnIndex, itemIndex }) {
     }
     return acc + 1;
   }, 0);
-
-  state.columns.forEach((column) => {
-    console.log(column.cards.map((item) => (item ? item.title : undefined)));
-  });
 }
 
 export function removeEmptyCard(state) {
-  console.log('removeEmptyCard');
   state.columns = state.columns.map((column, columnIndex) => ({
     ...column,
     cards: column.cards.filter((card) => card !== undefined).map((card, index) => ({
@@ -373,9 +339,6 @@ export function removeEmptyCard(state) {
       columnIndex,
     })),
   }));
-  state.columns.forEach((column) => {
-    console.log(column.cards.map((item) => (item ? item.title : undefined)));
-  });
 }
 export function setDashboardTitle(state, title) {
   state.dashboardTitle = title;

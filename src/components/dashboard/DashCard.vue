@@ -135,7 +135,6 @@ export default {
       this.setIsShowDialog(true);
     },
     handleMouseDown(event) {
-      console.log({ column: this.card.columnIndex, index: this.card.itemIndex });
       this.isMousePressing = true;
       this.originX = event.clientX;
       this.originY = event.clientY;
@@ -207,7 +206,6 @@ export default {
       if (this.$store.state.dashboard.draggingItem === null) {
         return;
       }
-      console.log('card wraper handleMouseOver');
       event.stopPropagation();
       const { top, height } = this.$refs.wrapper.getBoundingClientRect();
       const tagetCenterY = top + height / 2;

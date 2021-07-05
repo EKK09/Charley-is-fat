@@ -68,7 +68,6 @@ export default {
     ...mapMutations('dashboard', ['switchDraggingColumn', 'addColumnCard', 'insertDraggingCardItem']),
 
     handleMouseUp(event) {
-      console.log('handleMouseUp');
       if (this.isMousePressing === false) {
         return;
       }
@@ -79,10 +78,7 @@ export default {
       }
     },
     handleMouseDown(event) {
-      console.log('handleMouseDown');
-
       if (this.$refs.header.isFocus()) {
-        console.log('打字中');
         return;
       }
       event.stopPropagation();
@@ -97,7 +93,6 @@ export default {
       if (!this.isMousePressing || this.isDraggable) {
         return;
       }
-      console.log('handleMouseMove');
       const distance = this.getMoveDistance(event.x, event.y);
       if (distance > 15) {
         this.setCardDragable();
@@ -106,7 +101,6 @@ export default {
       }
     },
     handleWindowMouseUp() {
-      console.log('handleWindowMouseUp');
       this.cancelCardDragable();
       window.removeEventListener('mousemove', this.handleWindowMouseMove);
       window.removeEventListener('mouseup', this.handleWindowMouseUp);
@@ -158,8 +152,6 @@ export default {
       if (this.draggingList === null && this.draggingItem === null) {
         return;
       }
-
-      console.log(`handleMouseEnter index:${this.column.columnIndex}`);
       const {
         left, width,
       } = this.$refs.wrapper.getBoundingClientRect();
