@@ -130,7 +130,7 @@ export default {
       this.showCardDialog();
     },
     async showCardDialog() {
-      await this.$router.push({ params: { cardId: this.card.id } });
+      await this.$router.push({ query: { card: this.card.id } });
       this.setDialogCard(this.card);
       this.setIsShowDialog(true);
     },

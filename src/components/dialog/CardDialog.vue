@@ -70,7 +70,7 @@ export default {
     },
     handleDialogClose() {
       this.setDialogCard(null);
-      this.$router.push({ params: { cardId: undefined } });
+      this.$router.replace({ query: undefined }).catch(() => {});
     },
     handleBackDropClick(event) {
       const hasClickCard = event.path.includes(this.$refs.dialogCard);

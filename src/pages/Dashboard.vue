@@ -17,7 +17,7 @@ export default {
   name: 'Dashboard',
   components: { DashboardHeader, DashBoardBody, CardDialog },
   mounted() {
-    const { cardId } = this.$route.params;
+    const { card: cardId } = this.$route.query;
     if (cardId) {
       this.$store.commit('dashboard/showCardDialog', cardId);
     }
@@ -36,7 +36,7 @@ export default {
   },
   meta() {
     let title = this.$store.state.dashboard.dashboardTitle;
-    if (this.$route.params.cardId && this.$store.state.dashboard.dialogCard) {
+    if (this.$route.query.card && this.$store.state.dashboard.dialogCard) {
       title = `${title}的${this.$store.state.dashboard.dialogCard.title}`;
     } else {
       title += ' | trello';
